@@ -5,6 +5,9 @@ authors = ["Truth Mines Contributors"]
 edition = "2021"
 description = "Graph processing engine for Truth Mines knowledge system"
 license = "MIT"
+repository = "https://github.com/yourusername/truth-mines"
+keywords = ["graph", "knowledge", "visualization", "wasm"]
+categories = ["science", "wasm", "visualization"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -27,9 +30,10 @@ lto = true           # Link-time optimization
 codegen-units = 1    # Better optimization
 strip = true         # Strip symbols
 
-[[bench]]
-name = "graph_ops"
-harness = false
+# Benchmarks (to be added later)
+# [[bench]]
+# name = "graph_ops"
+# harness = false
 
 [lints.rust]
 unsafe_code = "forbid"
