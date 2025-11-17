@@ -1,0 +1,15 @@
+{
+  "id": "0sr001",
+  "type": "theory",
+  "domain": "physics",
+  "title": "Special Relativity",
+  "content": "The laws of physics are the same in all inertial frames. The speed of light is constant in all inertial frames.",
+  "formal": "ds² = -c²dt² + dx² + dy² + dz²",
+  "tags": ["relativity", "spacetime", "lorentz", "einstein"],
+  "metadata": {
+    "regime": "relativistic",
+    "importance": 9.5
+  },
+  "sources": ["einstein1905"],
+  "created": "2025-01-11T14:00:00Z"
+}

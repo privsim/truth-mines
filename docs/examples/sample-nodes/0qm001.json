@@ -1,0 +1,19 @@
+{
+  "id": "0qm001",
+  "type": "theory",
+  "domain": "physics",
+  "title": "Quantum Mechanics",
+  "content": "Physical systems are described by wave functions that evolve according to the Schrödinger equation. Measurements yield probabilistic outcomes.",
+  "formal": "iℏ ∂ψ/∂t = Ĥψ, P(x) = |ψ(x)|²",
+  "tags": ["quantum", "wave_function", "schrodinger", "probability"],
+  "metadata": {
+    "regime": "quantum",
+    "domain_of_validity": {
+      "min_scale": 1e-35,
+      "max_scale": 1e-8
+    },
+    "importance": 10.0
+  },
+  "sources": ["schrodinger1926", "born1926"],
+  "created": "2025-01-11T10:00:00Z"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "00c001",
+  "type": "concept",
+  "domain": "philosophy",
+  "title": "Formal systems",
+  "content": "A formal system consists of a formal language (syntax) plus a set of axioms and inference rules that determine which formulas are theorems.",
+  "formal": "FormalSystem = (Language, Axioms, InferenceRules, Theorems)",
+  "tags": ["logic", "formal_systems", "metamathematics"],
+  "metadata": {
+    "importance": 9.0
+  },
+  "sources": ["hilbert", "tarski"],
+  "created": "2025-01-10T08:00:00Z"
+}

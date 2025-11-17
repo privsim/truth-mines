@@ -1,0 +1,16 @@
+{
+  "id": "t4k2p9",
+  "type": "theorem",
+  "domain": "mathematics",
+  "title": "Fundamental Theorem of Algebra",
+  "content": "Every non-constant polynomial over ℂ has at least one root.",
+  "formal": "∀p ∈ ℂ[x], deg(p) ≥ 1 → ∃z ∈ ℂ: p(z) = 0",
+  "tags": ["complex_analysis", "polynomials", "algebra"],
+  "metadata": {
+    "difficulty": 7.2,
+    "importance": 9.5,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["gauss1799"],
+  "created": "2025-01-10T14:00:00Z"
+}

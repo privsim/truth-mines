@@ -1,0 +1,16 @@
+{
+  "id": "g8t2r1",
+  "type": "proposition",
+  "domain": "philosophy",
+  "title": "Reliability condition for knowledge",
+  "content": "S knows that p only if S's belief was formed through a reliable cognitive process.",
+  "formal": "K(S,p) → Reliable(Process(Belief(S,p)))",
+  "tags": ["epistemology", "reliabilism", "process_reliabilism"],
+  "metadata": {
+    "modality": "necessary",
+    "certainty": 0.7,
+    "importance": 8.0
+  },
+  "sources": ["goldman1979"],
+  "created": "2025-01-15T12:00:00Z"
+}

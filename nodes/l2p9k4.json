@@ -1,0 +1,16 @@
+{
+  "id": "l2p9k4",
+  "type": "definition",
+  "domain": "mathematics",
+  "title": "Continuity of functions",
+  "content": "A function f is continuous at point a if for every ε > 0, there exists δ > 0 such that |x - a| < δ implies |f(x) - f(a)| < ε.",
+  "formal": "Continuous(f,a) ↔ ∀ε>0 ∃δ>0 ∀x: |x-a|<δ → |f(x)-f(a)|<ε",
+  "tags": ["analysis", "continuity", "limits", "calculus"],
+  "metadata": {
+    "difficulty": 5.0,
+    "importance": 9.0,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["cauchy", "weierstrass"],
+  "created": "2025-01-07T11:00:00Z"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "0gr001",
+  "type": "theory",
+  "domain": "physics",
+  "title": "General Relativity",
+  "content": "Spacetime curvature determines gravitational effects. Mass and energy curve spacetime, and this curvature tells matter how to move.",
+  "formal": "R_μν − ½Rg_μν = (8πG/c⁴)T_μν",
+  "tags": ["gravity", "relativity", "spacetime", "einstein"],
+  "metadata": {
+    "regime": "classical",
+    "domain_of_validity": {
+      "min_scale": 1e-18,
+      "max_scale": 1e26
+    },
+    "importance": 10.0
+  },
+  "sources": ["einstein1915"],
+  "created": "2025-01-12T09:00:00Z"
+}

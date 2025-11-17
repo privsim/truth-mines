@@ -1,0 +1,17 @@
+{
+  "id": "k7x9m2",
+  "type": "proposition",
+  "domain": "philosophy",
+  "title": "Knowledge requires safety",
+  "content": "For S to know that p, S's belief in p must be safe: in nearby possible worlds where S believes p, p is true.",
+  "formal": "∀S,p: K(S,p) → Safe(S,p)",
+  "tags": ["epistemology", "knowledge", "safety", "modal_epistemology"],
+  "metadata": {
+    "modality": "necessary",
+    "certainty": 0.75,
+    "importance": 8.5
+  },
+  "sources": ["pritchard2005"],
+  "created": "2025-01-15T10:00:00Z",
+  "updated": "2025-01-15T10:00:00Z"
+}
