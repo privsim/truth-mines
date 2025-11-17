@@ -1,0 +1,16 @@
+{
+  "id": "d5k7n8",
+  "type": "theorem",
+  "domain": "mathematics",
+  "title": "Gödel's First Incompleteness Theorem",
+  "content": "Any consistent formal system F within which a certain amount of elementary arithmetic can be carried out is incomplete: there are statements of the language of F which can neither be proved nor disproved in F.",
+  "formal": "∀F: (Consistent(F) ∧ ArithmeticCapable(F)) → ∃φ: ¬Provable_F(φ) ∧ ¬Provable_F(¬φ)",
+  "tags": ["logic", "incompleteness", "metamathematics", "foundations"],
+  "metadata": {
+    "difficulty": 9.5,
+    "importance": 10.0,
+    "axiom_system": "meta"
+  },
+  "sources": ["godel1931"],
+  "created": "2025-01-05T14:00:00Z"
+}

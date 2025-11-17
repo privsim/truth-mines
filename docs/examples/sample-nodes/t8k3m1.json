@@ -1,0 +1,16 @@
+{
+  "id": "t8k3m1",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Completeness of the complex numbers",
+  "content": "The complex numbers form a complete metric space under the standard metric.",
+  "formal": "∀{z_n} ⊂ ℂ: Cauchy({z_n}) → ∃z ∈ ℂ: lim(z_n) = z",
+  "tags": ["complex_analysis", "completeness", "metric_spaces"],
+  "metadata": {
+    "difficulty": 6.0,
+    "importance": 8.5,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["rudin1976"],
+  "created": "2025-01-09T10:00:00Z"
+}

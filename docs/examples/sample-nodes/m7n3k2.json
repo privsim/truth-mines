@@ -1,0 +1,16 @@
+{
+  "id": "m7n3k2",
+  "type": "theorem",
+  "domain": "mathematics",
+  "title": "Pythagorean theorem",
+  "content": "In a right triangle, the square of the hypotenuse equals the sum of the squares of the other two sides.",
+  "formal": "∀a,b,c ∈ ℝ⁺: (a² + b² = c²) ↔ RightTriangle(a,b,c)",
+  "tags": ["geometry", "euclidean", "classical"],
+  "metadata": {
+    "difficulty": 3.0,
+    "importance": 10.0,
+    "axiom_system": "euclidean_geometry"
+  },
+  "sources": ["euclid_elements"],
+  "created": "2025-01-08T09:00:00Z"
+}

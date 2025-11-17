@@ -1,0 +1,16 @@
+{
+  "id": "m4k2p9",
+  "type": "proposition",
+  "domain": "philosophy",
+  "title": "Gettier cases refute JTB",
+  "content": "Edmund Gettier provided counterexamples to the justified true belief analysis of knowledge, showing cases where S has justified true belief but does not have knowledge.",
+  "formal": "∃S,p: (True(p) ∧ Believes(S,p) ∧ Justified(S,p) ∧ ¬K(S,p))",
+  "tags": ["epistemology", "gettier", "knowledge", "counterexample"],
+  "metadata": {
+    "modality": "contingent",
+    "certainty": 0.95,
+    "importance": 9.5
+  },
+  "sources": ["gettier1963"],
+  "created": "2025-01-14T10:30:00Z"
+}

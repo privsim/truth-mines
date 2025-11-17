@@ -1,0 +1,16 @@
+{
+  "id": "q3p8n5",
+  "type": "proposition",
+  "domain": "philosophy",
+  "title": "No false lemmas condition",
+  "content": "S knows that p only if S's justification for believing p does not essentially depend on any false lemmas.",
+  "formal": "K(S,p) → ¬∃q: (Lemma(q,p) ∧ False(q) ∧ Essential(q,Justification(S,p)))",
+  "tags": ["epistemology", "knowledge", "justification", "false_lemmas"],
+  "metadata": {
+    "modality": "necessary",
+    "certainty": 0.65,
+    "importance": 7.0
+  },
+  "sources": ["clark1963"],
+  "created": "2025-01-15T11:00:00Z"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "prf001",
+  "type": "theorem",
+  "domain": "mathematics",
+  "title": "Existence of transcendental numbers",
+  "content": "There exist real numbers that are not roots of any non-zero polynomial with rational coefficients.",
+  "formal": "∃x ∈ ℝ: ∀p ∈ ℚ[x], p ≠ 0: p(x) ≠ 0",
+  "tags": ["number_theory", "transcendental", "algebraic"],
+  "metadata": {
+    "difficulty": 7.0,
+    "importance": 8.0,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["liouville1844", "cantor1874"],
+  "created": "2025-01-07T15:00:00Z"
+}

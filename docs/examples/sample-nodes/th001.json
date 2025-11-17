@@ -1,0 +1,16 @@
+{
+  "id": "th001",
+  "type": "theorem",
+  "domain": "mathematics",
+  "title": "Cantor's Theorem",
+  "content": "For any set A, the power set of A has strictly greater cardinality than A itself.",
+  "formal": "∀A: |A| < |𝒫(A)|",
+  "tags": ["set_theory", "cardinality", "infinity", "cantor"],
+  "metadata": {
+    "difficulty": 6.5,
+    "importance": 9.0,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["cantor1891"],
+  "created": "2025-01-06T14:00:00Z"
+}

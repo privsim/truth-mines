@@ -1,0 +1,3 @@
+{"f":"gr001","t":"obs001","relation":"predicts","w":0.99,"domain":"physics"}
+{"f":"qm001","t":"obs003","relation":"predicts","w":0.95,"domain":"physics"}
+{"f":"nm001","t":"obs001","relation":"predicts","w":0.7,"domain":"physics"}

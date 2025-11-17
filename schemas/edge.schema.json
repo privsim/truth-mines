@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://truth-mines.org/schemas/edge.schema.json",
+  "title": "Truth Mines Edge",
+  "description": "Schema for a knowledge graph edge in Truth Mines",
+  "type": "object",
+  "required": ["f", "t", "relation", "domain"],
+  "properties": {
+    "f": {
+      "type": "string",
+      "pattern": "^[a-z0-9]{6}$",
+      "description": "From node ID (source)"
+    },
+    "t": {
+      "type": "string",
+      "pattern": "^[a-z0-9]{6}$",
+      "description": "To node ID (target)"
+    },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "supports",
+        "attacks",
+        "entails",
+        "defines",
+        "cites",
+        "presupposes",
+        "refutes",
+        "explicates",
+        "proves",
+        "generalizes",
+        "equivalent",
+        "lemma_for",
+        "corollary_of",
+        "predicts",
+        "tests",
+        "approximates",
+        "reduces_to",
+        "unifies",
+        "formalizes",
+        "models",
+        "philosophical_foundation",
+        "empirical_grounding",
+        "applies_to"
+      ],
+      "description": "Type of relationship between nodes"
+    },
+    "w": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Optional weight or strength of the relationship (0-1)"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Domain of the relation (e.g., 'philosophy', 'mathematics', 'bridge:phil→math')"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional metadata for the edge",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

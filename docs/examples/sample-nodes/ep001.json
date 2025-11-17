@@ -1,0 +1,16 @@
+{
+  "id": "ep001",
+  "type": "concept",
+  "domain": "philosophy",
+  "title": "Empiricism",
+  "content": "All knowledge comes from sensory experience. There are no innate ideas; the mind begins as a blank slate (tabula rasa).",
+  "formal": "∀S,p: K(S,p) → ∃e: SensoryExperience(e) ∧ Grounds(e,p)",
+  "tags": ["epistemology", "empiricism", "experience", "locke", "hume"],
+  "metadata": {
+    "modality": "contingent",
+    "certainty": 0.5,
+    "importance": 8.5
+  },
+  "sources": ["locke1689", "hume1748"],
+  "created": "2025-01-13T10:00:00Z"
+}

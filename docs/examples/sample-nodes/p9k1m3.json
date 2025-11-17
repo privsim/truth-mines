@@ -1,0 +1,16 @@
+{
+  "id": "p9k1m3",
+  "type": "concept",
+  "domain": "philosophy",
+  "title": "Modal realism",
+  "content": "Possible worlds are real, concrete entities that exist in the same sense as the actual world. What makes something possible is that it is true in some possible world.",
+  "formal": "◇p ↔ ∃w ∈ W: True_w(p)",
+  "tags": ["metaphysics", "modality", "possible_worlds", "lewis"],
+  "metadata": {
+    "modality": "contingent",
+    "certainty": 0.3,
+    "importance": 7.5
+  },
+  "sources": ["lewis1986"],
+  "created": "2025-01-14T16:00:00Z"
+}

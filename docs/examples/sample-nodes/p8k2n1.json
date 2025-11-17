@@ -1,0 +1,16 @@
+{
+  "id": "p8k2n1",
+  "type": "proposition",
+  "domain": "philosophy",
+  "title": "Justified true belief",
+  "content": "The traditional analysis of knowledge: S knows that p if and only if (1) p is true, (2) S believes that p, and (3) S is justified in believing that p.",
+  "formal": "K(S,p) ↔ (True(p) ∧ Believes(S,p) ∧ Justified(S,p))",
+  "tags": ["epistemology", "knowledge", "jtb", "gettier"],
+  "metadata": {
+    "modality": "contingent",
+    "certainty": 0.4,
+    "importance": 9.0
+  },
+  "sources": ["plato_theaetetus", "gettier1963"],
+  "created": "2025-01-14T09:00:00Z"
+}

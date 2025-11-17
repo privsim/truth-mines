@@ -1,0 +1,70 @@
+# Truth Mines Core Schema Configuration
+# Defines valid domains, relations, and validation rules
+
+version = "1.0.0"
+
+# Known domains for the knowledge graph
+[domains]
+known = ["philosophy", "mathematics", "physics"]
+
+# Universal relations (applicable across all domains)
+[relations.universal]
+values = [
+    "supports",      # Evidence or argument supporting a claim
+    "attacks",       # Evidence or argument against a claim
+    "entails",       # Logical entailment
+    "defines",       # Definitional relationship
+    "cites"          # Citation or reference
+]
+
+# Philosophy-specific relations
+[relations.philosophy]
+values = [
+    "presupposes",          # Conceptual presupposition
+    "refutes",              # Philosophical refutation
+    "explicates"            # Conceptual explication
+]
+
+# Mathematics-specific relations
+[relations.mathematics]
+values = [
+    "proves",               # Proof relationship
+    "generalizes",          # Generalization
+    "equivalent",           # Logical equivalence
+    "lemma_for",            # Lemma used in proof
+    "corollary_of"          # Direct consequence
+]
+
+# Physics-specific relations
+[relations.physics]
+values = [
+    "predicts",             # Theory predicts observation
+    "tests",                # Experimental test of theory
+    "approximates",         # Approximation relationship
+    "reduces_to",           # Reduction (e.g., classical limit)
+    "unifies"               # Unification of theories
+]
+
+# Cross-domain bridge relations
+[relations.bridges]
+values = [
+    "formalizes",                  # Philosophy → Mathematics (formal model)
+    "models",                      # Mathematics → Physics (mathematical model)
+    "philosophical_foundation",    # Philosophy → Other (conceptual foundation)
+    "empirical_grounding",         # Physics → Other (empirical basis)
+    "applies_to"                   # General application relationship
+]
+
+# Validation settings
+[validation]
+# Require all domains to be in known list when strict mode enabled
+strict_domains = true
+
+# Require all relations to be in defined lists when strict mode enabled
+strict_relations = true
+
+# Maximum depth for path queries (performance safety)
+max_path_depth = 20
+
+# Node ID format validation (regex)
+node_id_pattern = "^[a-z0-9]{6}$"

@@ -1,0 +1,7 @@
+{"f":"k7x9m2","t":"q3p8n5","relation":"supports","w":0.9,"domain":"philosophy"}
+{"f":"m4k2p9","t":"q3p8n5","relation":"supports","w":0.85,"domain":"philosophy"}
+{"f":"q3p8n5","t":"g8t2r1","relation":"supports","w":0.7,"domain":"philosophy"}
+{"f":"p9k1m3","t":"k7x9m2","relation":"supports","w":0.6,"domain":"philosophy"}
+{"f":"t8k3m1","t":"t4k2p9","relation":"supports","w":1.0,"domain":"mathematics"}
+{"f":"ax001","t":"th001","relation":"supports","w":0.95,"domain":"mathematics"}
+{"f":"ep001","t":"p8k2n1","relation":"supports","w":0.5,"domain":"philosophy"}

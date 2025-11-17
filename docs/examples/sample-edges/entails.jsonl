@@ -1,0 +1,4 @@
+{"f":"p8k2n1","t":"g8t2r1","relation":"entails","w":0.7,"domain":"philosophy"}
+{"f":"th001","t":"prf001","relation":"entails","w":0.95,"domain":"mathematics"}
+{"f":"l2p9k4","t":"t8k3m1","relation":"entails","w":0.8,"domain":"mathematics"}
+{"f":"sr001","t":"gr001","relation":"entails","w":0.75,"domain":"physics"}

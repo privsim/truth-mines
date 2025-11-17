@@ -1,0 +1,16 @@
+{
+  "id": "ax001",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Axiom of Choice",
+  "content": "For any collection of non-empty sets, there exists a function that selects exactly one element from each set.",
+  "formal": "∀X: (∅ ∉ X) → ∃f: ∀A ∈ X: f(A) ∈ A",
+  "tags": ["set_theory", "zfc", "axiom_of_choice", "foundations"],
+  "metadata": {
+    "difficulty": 8.0,
+    "importance": 9.5,
+    "axiom_system": "ZFC"
+  },
+  "sources": ["zermelo1904"],
+  "created": "2025-01-06T10:00:00Z"
+}

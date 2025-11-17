@@ -1,0 +1,19 @@
+{
+  "id": "nm001",
+  "type": "principle",
+  "domain": "physics",
+  "title": "Newton's Second Law",
+  "content": "The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass.",
+  "formal": "F = ma",
+  "tags": ["classical_mechanics", "force", "acceleration", "newton"],
+  "metadata": {
+    "regime": "classical",
+    "importance": 9.5,
+    "domain_of_validity": {
+      "min_scale": 1e-6,
+      "max_scale": 1e15
+    }
+  },
+  "sources": ["newton1687"],
+  "created": "2025-01-10T09:00:00Z"
+}

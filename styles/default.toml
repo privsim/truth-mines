@@ -1,0 +1,159 @@
+# Truth Mines Default Visual Style Configuration
+# Defines colors, shapes, and visual encodings for graph visualization
+
+version = "1.0.0"
+
+# Domain color mappings (RGB values 0-255 or hex)
+[colors.domains]
+philosophy = [147, 51, 234]     # Purple (#9333EA)
+mathematics = [37, 99, 235]     # Blue (#2563EB)
+physics = [220, 38, 38]         # Red (#DC2626)
+
+# Bridge edge color
+[colors.bridges]
+default = [251, 191, 36]        # Gold (#FBBF24)
+
+# Relation colors for edges
+[colors.relations]
+supports = [34, 197, 94]        # Green (#22C55E)
+attacks = [239, 68, 68]         # Red (#EF4444)
+entails = [59, 130, 246]        # Blue (#3B82F6)
+proves = [168, 85, 247]         # Purple (#A855F7)
+predicts = [249, 115, 22]       # Orange (#F97316)
+formalizes = [251, 191, 36]     # Gold (#FBBF24)
+models = [14, 165, 233]         # Sky Blue (#0EA5E9)
+default = [156, 163, 175]       # Gray (#9CA3AF)
+
+# Node type visual encodings
+[nodes.types.proposition]
+shape = "sphere"
+base_size = 1.0
+
+[nodes.types.theorem]
+shape = "cube"
+base_size = 1.2
+
+[nodes.types.theory]
+shape = "octahedron"
+base_size = 1.5
+
+[nodes.types.axiom]
+shape = "diamond"
+base_size = 1.0
+
+[nodes.types.definition]
+shape = "sphere"
+base_size = 0.8
+
+[nodes.types.observation]
+shape = "tetrahedron"
+base_size = 1.0
+
+[nodes.types.experiment]
+shape = "cylinder"
+base_size = 1.0
+
+[nodes.types.concept]
+shape = "sphere"
+base_size = 0.9
+
+# Default for unknown types
+[nodes.types.default]
+shape = "sphere"
+base_size = 1.0
+
+# Size scaling
+[nodes.scaling]
+# Size multiplier based on metadata.importance (0-10 scale)
+importance_factor = 0.1
+
+# Size multiplier based on node centrality (computed)
+centrality_factor = 0.2
+
+# Minimum and maximum node sizes
+min_size = 0.5
+max_size = 3.0
+
+# Opacity settings
+[nodes.opacity]
+default = 0.9
+hover = 1.0
+selected = 1.0
+filtered_out = 0.2
+
+# Edge visual settings
+[edges]
+# Base edge width
+base_width = 0.05
+
+# Edge width multiplier based on weight (0-1)
+weight_factor = 0.1
+
+# Edge opacity
+default_opacity = 0.6
+hover_opacity = 0.9
+selected_opacity = 1.0
+
+# Edge rendering style
+render_as = "line"  # Options: "line", "tube", "arrow"
+
+# Show arrowheads for directed edges
+show_arrows = true
+arrow_size = 0.1
+
+# Layout parameters
+[layout]
+# 3D Truth Mine Y-axis spacing between depth layers
+depth_spacing = 5.0
+
+# Force-directed layout parameters (for 2D and within-layer 3D)
+[layout.force]
+iterations = 100
+spring_length = 2.0
+spring_strength = 0.01
+repulsion_strength = 50.0
+center_strength = 0.01
+damping = 0.9
+
+# Performance settings
+[performance]
+# Level of detail (LOD) distances
+lod_high_distance = 50.0
+lod_medium_distance = 150.0
+lod_low_distance = 300.0
+
+# Maximum nodes to render at once (for large graphs)
+max_visible_nodes = 5000
+
+# Enable frustum culling
+enable_culling = true
+
+# Visual effects
+[effects]
+# Ambient lighting (0-1)
+ambient_light = 0.4
+
+# Directional light intensity
+directional_light = 0.6
+
+# Enable depth fog
+enable_fog = true
+fog_near = 100.0
+fog_far = 500.0
+fog_color = [15, 23, 42]  # Dark blue-gray (#0F172A)
+
+# Enable anti-aliasing
+enable_antialiasing = true
+
+# Glow effect for selected nodes
+enable_glow = true
+glow_intensity = 0.3
+
+# Background color (RGB 0-255)
+[display]
+background_color = [15, 23, 42]  # Dark blue-gray (#0F172A)
+
+# Grid color for depth layers
+grid_color = [51, 65, 85]  # Slate (#334155)
+grid_opacity = 0.2
+show_grid = true

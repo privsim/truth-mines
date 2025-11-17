@@ -1,0 +1,20 @@
+# Truth Mines Python Scripts Dependencies
+
+# Core
+jsonschema>=4.20.0
+toml>=0.10.2
+
+# Performance
+orjson>=3.9.0  # Fast JSON parsing
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Code quality
+black>=23.0.0
+ruff>=0.1.0
+mypy>=1.7.0
+
+# Type stubs
+types-toml>=0.10.8
