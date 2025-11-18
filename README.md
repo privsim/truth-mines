@@ -118,17 +118,27 @@ python3 -m venv venv
 source venv/bin/activate  # On macOS/Linux
 pip install -r scripts/requirements.txt
 
-# Build Rust engine
+# Build graph artifacts
+python scripts/build_index.py
+python scripts/build_toon.py
+
+# Build Rust engine (optional for now)
 cd engine
 wasm-pack build --target web --dev
 cd ..
 
-# Setup and run frontend (when implemented)
-# cd web
-# npm install
-# npm run dev
+# Setup and run frontend
+cd web
+npm install
 
-# Validate sample graph
+# Copy graph data for dev server
+bash scripts/copy-graph-data.sh
+
+# Start dev server
+npm run dev
+# Opens at http://localhost:3000
+
+# In another terminal, validate sample graph
 python scripts/validate.py
 ```
 

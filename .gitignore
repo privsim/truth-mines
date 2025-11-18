@@ -2,6 +2,9 @@
 
 # Build artifacts
 dist/
+web/public/dist/
+web/public/nodes/
+web/public/edges/
 *.wasm
 *.wasm.map
 

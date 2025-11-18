@@ -8,8 +8,16 @@ React + TypeScript + Vite frontend for Truth Mines knowledge graph visualization
 # Install dependencies
 npm install
 
+# Copy graph data from project root (required for dev server)
+bash scripts/copy-graph-data.sh
+
+# OR manually from project root:
+# cp -r dist web/public/
+# cp -r nodes web/public/
+
 # Run development server
 npm run dev
+# Opens at http://localhost:3000
 
 # Build for production
 npm run build
@@ -17,6 +25,11 @@ npm run build
 # Preview production build
 npm run preview
 ```
+
+**Important:** The dev server needs graph data in `web/public/`. Run the copy script after:
+- Building new graph artifacts (`python scripts/build_index.py`, etc.)
+- Adding/modifying nodes in the main `nodes/` directory
+- Any changes to the knowledge graph
 
 ## Testing
 
