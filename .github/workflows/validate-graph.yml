@@ -1,0 +1,49 @@
+name: Validate Knowledge Graph
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'nodes/**'
+      - 'edges/**'
+      - 'schemas/**'
+      - '.truth-mines/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'nodes/**'
+      - 'edges/**'
+      - 'schemas/**'
+      - '.truth-mines/**'
+
+jobs:
+  validate:
+    name: Validate Graph Data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r scripts/requirements.txt
+      - name: Validate graph structure
+        run: python scripts/validate.py --strict
+      - name: Build index
+        run: python scripts/build_index.py
+      - name: Build TOON
+        run: python scripts/build_toon.py
+      - name: Verify artifacts created
+        run: |
+          test -f dist/manifest.json || (echo "manifest.json not created" && exit 1)
+          test -f dist/graph.json || (echo "graph.json not created" && exit 1)
+          test -f dist/edges.toon || (echo "edges.toon not created" && exit 1)
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: graph-artifacts
+          path: |
+            dist/manifest.json
+            dist/graph.json
+            dist/edges.toon

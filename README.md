@@ -1,5 +1,10 @@
 # Truth Mines
 
+[![Rust CI](https://github.com/yourusername/truth-mines/workflows/Rust%20CI/badge.svg)](https://github.com/yourusername/truth-mines/actions/workflows/ci-rust.yml)
+[![Frontend CI](https://github.com/yourusername/truth-mines/workflows/Frontend%20CI/badge.svg)](https://github.com/yourusername/truth-mines/actions/workflows/ci-frontend.yml)
+[![Python Scripts CI](https://github.com/yourusername/truth-mines/workflows/Python%20Scripts%20CI/badge.svg)](https://github.com/yourusername/truth-mines/actions/workflows/ci-scripts.yml)
+[![Validate Knowledge Graph](https://github.com/yourusername/truth-mines/workflows/Validate%20Knowledge%20Graph/badge.svg)](https://github.com/yourusername/truth-mines/actions/workflows/validate-graph.yml)
+
 **A Git-native, multi-domain formal knowledge system with 2D/3D visualization and LLM integration.**
 
 Truth Mines represents philosophy, mathematics, and physics in a unified graph structure, providing:
