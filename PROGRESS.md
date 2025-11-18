@@ -1,7 +1,7 @@
 # Truth Mines - Development Progress
 
 **Last Updated:** 2025-11-17
-**Status:** Milestones 1 & 2 Complete, Epic 2 Finished
+**Status:** Milestones 1 & 2 Complete, Epic 3 Well Advanced (64%)
 
 ---
 
@@ -70,9 +70,42 @@
 
 ---
 
+### 🚧 Milestone 3: 2D Overview UI
+**Status:** IN PROGRESS (64% complete)
+**Issues:** #28-#38 (7 of 11 complete)
+
+**Deliverables (Complete):**
+- React + TypeScript + Vite project setup
+- TypeScript type definitions (Node, Edge, Manifest, GraphSummary)
+- useGraphData hook (loads manifest and graph summary)
+- NodeDetail component (displays full node info)
+- Filters component (domain & type filtering)
+- Search component (debounced multi-field search)
+- E2E test infrastructure (Playwright configured)
+
+**Test Coverage:**
+- 25 TypeScript unit tests, 100% passing
+- 3 E2E tests (infrastructure ready)
+- React Testing Library + userEvent
+- Vitest with jsdom environment
+
+**Components Built:**
+- App with view toggle (2D ↔ 3D)
+- NodeDetail panel (async loading, error handling)
+- Filters (checkboxes, select all/none)
+- Search (debounced, multi-field, clear button)
+
+**Remaining:**
+- #31: useGraphEngine hook (WASM integration)
+- #32: App layout refinement
+- #33: Graph2D component (cosmos.gl)
+- #37: Full integration (connect all pieces)
+
+---
+
 ## Test Statistics
 
-**Total Tests:** 139 tests, **ZERO failures** ✓
+**Total Tests:** 164 tests, **ZERO failures** ✓
 
 **Python:** 37/37 passing ✓
 - Validation: 12 tests
@@ -93,6 +126,13 @@
 - Buffers: 3 tests
 - Lib: 1 test
 - Integration: 2 tests
+
+**TypeScript:** 25/25 passing ✓
+- App: 5 tests
+- useGraphData: 3 tests
+- NodeDetail: 4 tests
+- Filters: 7 tests
+- Search: 6 tests
 
 **Code Quality:** Zero warnings across all languages ✓
 
