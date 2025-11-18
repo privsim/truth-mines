@@ -1,0 +1,13 @@
+.attacks-view {
+  padding: 1rem;
+}
+
+.attacks-view h3 {
+  font-size: 1rem;
+  color: #f8fafc;
+  margin-bottom: 1rem;
+}
+
+.attacks-content {
+  color: #94a3b8;
+}

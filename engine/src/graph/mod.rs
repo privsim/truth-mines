@@ -1,6 +1,7 @@
 //! Core graph data structures and operations
 
 pub mod edge;
+pub mod filter;
 pub mod node;
 pub mod query;
 pub mod store;

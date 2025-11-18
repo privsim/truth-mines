@@ -1,0 +1,23 @@
+.justification-tree {
+  padding: 1rem;
+}
+
+.justification-tree h3 {
+  font-size: 1rem;
+  color: #f8fafc;
+  margin-bottom: 1rem;
+}
+
+.tree-content {
+  color: #94a3b8;
+}
+
+.placeholder-text {
+  margin-bottom: 0.5rem;
+}
+
+.note {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-style: italic;
+}
