@@ -95,6 +95,12 @@ impl GraphStore {
     pub const fn edge_count(&self) -> usize {
         self.edges.len()
     }
+
+    /// Returns all nodes
+    #[must_use]
+    pub fn nodes(&self) -> &[Node] {
+        &self.nodes
+    }
 }
 
 #[cfg(test)]
