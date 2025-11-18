@@ -43,8 +43,8 @@ pub struct GpuEdge {
     pub relation_id: u32,
     /// Flags for rendering (bitfield)
     pub flags: u32,
-    /// Padding for alignment
-    _padding: u32,
+    /// Padding for alignment (explicit for layout control)
+    pub padding: u32,
 }
 
 #[cfg(test)]
@@ -131,7 +131,7 @@ mod tests {
             weight: 0.9,
             relation_id: 1,
             flags: 0,
-            _padding: 0,
+            padding: 0,
         };
 
         let _bytes = bytemuck::bytes_of(&edge);
@@ -161,7 +161,7 @@ mod tests {
                 weight: 0.9,
                 relation_id: 1,
                 flags: 0,
-                _padding: 0,
+                padding: 0,
             },
             GpuEdge {
                 from: 1,
@@ -170,7 +170,7 @@ mod tests {
                 weight: 0.75,
                 relation_id: 2,
                 flags: 0,
-                _padding: 0,
+                padding: 0,
             },
         ];
 
