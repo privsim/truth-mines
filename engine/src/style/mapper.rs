@@ -173,7 +173,6 @@ impl StyleConfig {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bytemuck::Zeroable;
 
     fn create_test_node(id: &str, domain: &str, node_type: &str) -> Node {
         Node {
