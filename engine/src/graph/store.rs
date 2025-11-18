@@ -6,11 +6,11 @@ use std::collections::HashMap;
 /// Main graph storage structure
 #[derive(Default)]
 pub struct GraphStore {
-    pub(super) nodes: Vec<Node>,
-    pub(super) edges: Vec<Edge>,
-    pub(super) id_to_idx: HashMap<String, usize>,
-    pub(super) out_edges: Vec<Vec<usize>>,
-    pub(super) in_edges: Vec<Vec<usize>>,
+    pub(crate) nodes: Vec<Node>,
+    pub(crate) edges: Vec<Edge>,
+    pub(crate) id_to_idx: HashMap<String, usize>,
+    pub(crate) out_edges: Vec<Vec<usize>>,
+    pub(crate) in_edges: Vec<Vec<usize>>,
 }
 
 impl GraphStore {
