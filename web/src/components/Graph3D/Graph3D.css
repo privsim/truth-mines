@@ -1,0 +1,48 @@
+.graph-3d {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f172a;
+  position: relative;
+}
+
+.graph-3d-canvas {
+  flex: 1;
+  width: 100%;
+  display: block;
+}
+
+.graph-3d-controls {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background-color: rgba(30, 41, 59, 0.9);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #334155;
+  max-width: 400px;
+}
+
+.graph-3d-controls .hint {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.graph-3d-controls ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.graph-3d-controls li {
+  margin-bottom: 0.25rem;
+}
+
+.graph-3d-controls li::before {
+  content: '';
+  margin-right: 0.5rem;
+}
