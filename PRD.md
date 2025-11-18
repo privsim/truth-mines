@@ -625,6 +625,468 @@ Milestone 6: LLM Integration
 
 ⸻
 
+13. Visualization & Interaction Specification
+
+This section extends the visual design with rich interaction behaviors that transform the graph from an abstract visualization into a visceral knowledge exploration environment.
+
+13.1 Salience Model: Dynamic Visual Weight
+
+Visual salience determines which nodes and edges receive visual emphasis. It's computed as a weighted function of:
+
+salience(node) = clamp(
+    w_focus × isFocused(node)           // 1.0 if selected, 0 otherwise
+  + w_path × isOnPath(node)              // 1.0 if on active path, 0 otherwise
+  + w_neighbor × neighborWeight(node)    // Decays with hop distance (1.0, 0.6, 0.3, ...)
+  + w_meta × metadata.importance         // Optional: 0-1 from node metadata
+  , 0, 1
+)
+
+Default weights: w_focus=1.0, w_path=0.9, w_neighbor=0.5, w_meta=0.2 (for MVP, w_meta can be 0)
+
+Visual mappings from salience:
+	•	Size: baseSize × (0.5 + 1.5 × salience)
+	•	Opacity: 0.2 + 0.8 × salience
+	•	Label visibility: show if salience > 0.4
+	•	Glow intensity: salience × maxGlow
+
+13.2 2D View: Interaction State Machine
+
+The 2D graph has three distinct interaction states:
+
+STATE: Overview
+	•	No node selected.
+	•	All nodes visible according to filters.
+	•	Hover shows tooltips.
+	•	Click transitions to NodeFocused.
+
+STATE: NodeFocused
+	•	One node selected (selectedNodeId).
+	•	Camera centered on that node.
+	•	K-hop neighborhood highlighted (default k=2).
+	•	Node details panel open on right.
+	•	Hover still works on other nodes.
+	•	Clicking another node: transition to new NodeFocused.
+	•	Clicking background: return to Overview.
+
+STATE: PathFocused
+	•	A path between two nodes is active (focusPath).
+	•	Path nodes and edges highlighted; rest dimmed.
+	•	Path stepper UI visible.
+	•	Keyboard navigation active (←/→ or J/K).
+	•	Camera follows path progression.
+	•	Clicking "Exit path" or ESC: return to NodeFocused or Overview.
+
+13.3 Hover Tooltips (2D and 3D)
+
+When user hovers a node:
+
+Tooltip content:
+	•	Title (node.title)
+	•	Type + Domain badge (e.g., "Proposition • Philosophy")
+	•	Content preview: first 120 characters with ellipsis if truncated
+	•	Example: "For S to know that p, S's belief in p must be safe: in nearby possible worlds where S believes p, p is true…"
+
+Visual specification:
+	•	Background: rgba(30, 41, 59, 0.95) with subtle border
+	•	Padding: 0.75rem
+	•	Border radius: 0.5rem
+	•	Drop shadow: 0 4px 12px rgba(0,0,0,0.4)
+	•	Position: 10px above and 10px right of node center
+	•	Edge detection: flip to left/below if near screen boundary
+	•	Font: 0.875rem for title (bold), 0.75rem for content
+
+Timing:
+	•	Appear: 150ms after hover begins (debounce)
+	•	Disappear: 300ms after mouse leaves node and tooltip
+
+Testable requirements:
+	•	✓ Tooltip appears within 150ms of hover
+	•	✓ Content truncated at 120 chars with ellipsis
+	•	✓ Tooltip positioned correctly (flips near edges)
+	•	✓ Tooltip disappears when leaving
+	•	✓ Hovering new node replaces tooltip immediately
+
+13.4 Node Selection & Camera Centering
+
+When user clicks a node:
+
+Immediate effects:
+	1.	Set selectedNodeId in app state
+	2.	Transition to NodeFocused state
+	3.	Open/update Node Details Panel
+	4.	Trigger camera centering animation
+	5.	Compute and apply k-hop neighborhood highlighting
+
+Camera centering (2D):
+	•	Smooth pan animation (300ms ease-in-out)
+	•	Target: selected node at center of viewport
+	•	Optional zoom: scale to fit neighborhood if configured
+
+Camera centering (3D):
+	•	Smooth fly animation (800ms ease-in-out)
+	•	Target position: 15 units in front of node
+	•	Look at: node center
+	•	Orbital offset: slight elevation for better view
+
+K-hop neighborhood highlighting:
+	•	Use engine.neighbors(selectedNodeId, k=2)
+	•	Highlighted nodes: salience boosted
+	•	Highlighted edges: only edges within neighborhood
+	•	Background nodes: dimmed (opacity 0.2)
+
+Testable requirements:
+	•	✓ Click sets selectedNodeId
+	•	✓ Camera animates to center selected node
+	•	✓ Neighborhood query executes with correct k
+	•	✓ Node Details panel opens with correct data
+	•	✓ Background nodes dimmed appropriately
+
+13.5 Justification Tree Mode
+
+User can view support structure as a tree:
+
+Trigger:
+	•	Click "View Justification" tab in Node Details Panel
+	•	Or keyboard shortcut: T (for Tree)
+
+Layout transformation:
+	1.	Selected node positioned at top-center
+	2.	Find all incoming supports/proves/entails edges
+	3.	Layout supporting nodes below in tree structure
+	4.	Recursively expand downward to foundations
+	5.	Use Reingold-Tilford algorithm for clean tree layout
+
+Visual encoding:
+	•	Selected node: root of tree (top)
+	•	Foundation nodes: leaves (bottom, highlighted)
+	•	Edges: straight lines with relation labels
+	•	Edge thickness ∝ weight
+
+Interaction:
+	•	Clicking tree node: make it new tree root (re-layout)
+	•	Hovering edge: show relation type and weight
+	•	"Back to graph" button returns to standard 2D layout
+
+Tree depth limit: cap at 8 levels to prevent overwhelming view
+
+Testable requirements:
+	•	✓ Only epistemic relations (supports, proves, entails, predicts) included
+	•	✓ Tree shows all paths from selected to foundations
+	•	✓ Maximum depth enforced
+	•	✓ Clicking node in tree makes it new root
+	•	✓ Returning to graph view restores previous layout
+
+13.6 Path Travel Mode
+
+Path mode enables "walking through" an argument or proof step-by-step.
+
+13.6.1 Entering path mode
+
+Method 1: Via context menu
+	•	Right-click node A → "Set as path start"
+	•	Right-click node B → "Set as path end"
+	•	System queries: engine.find_paths(A, B, maxDepth=10)
+
+Method 2: Via path UI widget
+	•	Click "Find path" button
+	•	Select start node from dropdown (or current selection)
+	•	Select end node from dropdown
+	•	Click "Show paths"
+
+Path chooser (if multiple paths):
+	•	Modal/drawer showing all found paths:
+	•	Path 1: A → C → D → B (3 hops, avg weight 0.85)
+	•	Path 2: A → E → F → G → B (4 hops, avg weight 0.72)
+	•	User selects one → becomes focusPath
+
+13.6.2 Path visualization
+
+When focusPath is set:
+	•	All nodes NOT on path: opacity 0.15 (very dim)
+	•	Nodes ON path: full salience
+	•	Path index labels: numbered 1, 2, 3, … overlaid on nodes
+	•	Path edges: thick glowing lines (2-3× normal width)
+	•	Edge colors: relation-specific (supports green, proves blue, etc.)
+	•	Arrowheads: indicate direction
+
+13.6.3 Path Stepper UI
+
+Horizontal stepper appears at top or bottom:
+
+┌──────────────────────────────────────────────────────────────┐
+│  [1] Start Node  →  [2] Premise A  →  [3] Lemma  →  [4] End │
+│        ●              ●                ○              ○       │
+└──────────────────────────────────────────────────────────────┘
+
+Features:
+	•	Current step highlighted (filled circle)
+	•	Clicking step: jump to that node
+	•	Relation labels on arrows (→ supports, → proves, etc.)
+
+13.6.4 Path travel (keyboard navigation)
+
+Once in PathFocused state:
+
+Keyboard shortcuts:
+	•	→ or K: advance to next node on path
+	•	← or J: go to previous node on path
+	•	ESC: exit path mode
+
+Each step:
+	1.	Update current step index
+	2.	Camera animates along edge to next node (500ms)
+	3.	Node Details panel updates to show new node content
+	4.	Edge between current and next briefly pulses
+
+Optional "Play" mode:
+	•	▶ button: auto-advance with 3-second dwell per node
+	•	⏸ button: pause auto-play
+	•	Speed control: 1×, 2×, 0.5×
+
+Testable requirements:
+	•	✓ Keyboard navigation only active in PathFocused state
+	•	✓ → key advances one step (wraps at end or stops)
+	•	✓ ← key goes back one step (stops at start)
+	•	✓ Camera animates smoothly between nodes
+	•	✓ Node panel updates to current step
+	•	✓ ESC exits path mode and restores previous state
+
+13.7 3D View: Distance-Based Salience
+
+The 3D truth mine uses camera distance to modulate information density:
+
+13.7.1 Zoom levels
+
+Far (distance > 100 units):
+	•	Render: small point sprites (2-3 pixels)
+	•	Labels: none
+	•	Edges: hidden or very faint lines between clusters
+	•	Purpose: see overall structure, domain distribution
+
+Mid (distance 20-100 units):
+	•	Render: medium spheres/shapes (5-15 pixels)
+	•	Labels: title only, for nodes with salience > 0.5
+	•	Edges: visible within camera frustum
+	•	Purpose: explore local clusters, see connections
+
+Near (distance < 20 units):
+	•	Render: full detail (instanced geometry for type shapes)
+	•	Labels: title always visible, content on hover
+	•	Edges: thick tubes or ribbons with relation colors
+	•	Node Inspection Card: appears when distance < 10 units to focused node
+
+13.7.2 Node Inspection Card (3D close-up)
+
+When camera is very close to a node (< 10 units):
+
+Card appears as overlay (HUD element):
+	•	Title (large, prominent)
+	•	Domain + Type badges
+	•	Content: first 400-600 characters (scrollable if more)
+	•	Formal notation block (if present)
+	•	Tags
+	•	Quick actions:
+	•	"View justification"
+	•	"View attacks"
+	•	"Show in 2D"
+
+Direct neighbors (when inspecting):
+	•	Orbiting nodes: 1-hop neighbors arranged in sphere around focus
+	•	Connecting edges: highlighted tunnels
+	•	Neighbor labels: always visible
+	•	Clicking neighbor: fly to it (new inspection focus)
+
+Testable requirements:
+	•	✓ Card appears when distance < threshold
+	•	✓ Card shows correct node data
+	•	✓ Card hides when camera moves away
+	•	✓ Neighbors rendered in orbital layout
+	•	✓ Clicking neighbor triggers fly-to animation
+
+13.7.3 Path travel in 3D
+
+When focusPath is set in 3D:
+
+Path edges as tunnels:
+	•	Geometry: cylindrical tubes (or ribbon quads)
+	•	Color: relation-specific (supports green, proves blue, etc.)
+	•	Glow: emissive material
+	•	Width: 2-3× normal edge width
+
+Camera travel animation:
+	•	Spline interpolation: smooth curve through path nodes
+	•	Duration: ~2 seconds per edge
+	•	Camera looks ahead: always facing next node
+	•	Brief pause at each node: 1-2 seconds for content display
+
+Content display during travel:
+	•	As camera approaches node: fade in Node Inspection Card
+	•	At node: full card visible
+	•	As camera departs: fade out card, show next
+
+Keyboard shortcuts (same as 2D):
+	•	→ / K: next node
+	•	← / J: previous node
+	•	ESC: exit path mode
+
+Testable requirements:
+	•	✓ Path tunnels only rendered for focusPath edges
+	•	✓ Camera follows spline between nodes
+	•	✓ Each step takes ~2 seconds
+	•	✓ Content card syncs with current node
+	•	✓ Path state preserved when toggling 2D ↔ 3D
+
+13.8 Visual Encoding (Consistent 2D & 3D)
+
+Domain Colors (RGB):
+	•	Philosophy: [147, 51, 234] (purple)
+	•	Mathematics: [37, 99, 235] (blue)
+	•	Physics: [220, 38, 38] (red)
+
+Type Shapes (3D primarily, can use subtle icons in 2D):
+	•	Proposition: sphere
+	•	Theorem: cube / rectangular prism
+	•	Theory: octahedron
+	•	Axiom: diamond / tetrahedron
+	•	Definition: small sphere
+	•	Observation: cylinder
+	•	Experiment: irregular polyhedron
+	•	Concept: icosahedron
+
+Edge Colors by Relation:
+	•	supports: [34, 197, 94] (green)
+	•	attacks: [239, 68, 68] (red)
+	•	entails: [59, 130, 246] (blue)
+	•	proves: [168, 85, 247] (purple)
+	•	predicts: [249, 115, 22] (orange)
+	•	formalizes: [251, 191, 36] (gold)
+	•	models: [14, 165, 233] (sky blue)
+	•	default: [156, 163, 175] (gray)
+
+Bridge edges (domain contains "bridge:"):
+	•	Color: gold [251, 191, 36]
+	•	Thickness: 1.5× normal
+	•	Optional glow effect
+
+13.9 Camera & Animation Specifications
+
+2D Camera:
+	•	Pan: smooth translate over 300ms
+	•	Zoom: exponential scaling over 200ms
+	•	Center on node: pan + zoom to fit neighborhood
+
+3D Camera:
+	•	Orbit: arcball rotation around target point
+	•	Pan: translate along view plane
+	•	Zoom: move along look direction
+	•	Fly-to animation:
+	•	Duration: 800ms for standard fly, 2000ms for path travel
+	•	Easing: ease-in-out cubic
+	•	Look-ahead: camera orientation leads position by ~100ms
+
+Path travel (both 2D & 3D):
+	•	Step duration: 2 seconds per node
+	•	Edge animation: 500ms per edge
+	•	Dwell at node: 1.5 seconds
+	•	Camera interpolation: cubic Hermite spline for smoothness
+
+13.10 UI Components for Enhanced Interaction
+
+New components needed:
+
+NodeTooltip:
+	•	Floating div positioned near hovered node
+	•	Shows: title, type/domain, 120-char content snippet
+	•	Debounced appearance (150ms)
+	•	Auto-hides on mouse leave (300ms)
+
+PathChooser:
+	•	Modal dialog listing all found paths
+	•	Each path: node sequence, hop count, avg weight
+	•	Selection sets focusPath
+
+PathStepper:
+	•	Horizontal stepper component
+	•	Current step highlighted
+	•	Click step to jump
+	•	Shows relation labels on arrows
+
+NodeInspectionCard (3D):
+	•	Overlay HUD element when close to node
+	•	Full content (scrollable)
+	•	Formal notation block
+	•	Tags and metadata
+	•	Quick action buttons
+
+JustificationTreeView:
+	•	Tree layout with selected node as root
+	•	Foundation nodes at leaves
+	•	Interactive: click to re-root
+	•	Toggle between tree and graph layout
+
+13.11 Keyboard Shortcuts
+
+Global:
+	•	T: toggle to justification tree view (if node selected)
+	•	G: return to graph view from tree
+	•	F: focus/fly to selected node (3D)
+	•	ESC: clear selection / exit mode
+
+In PathFocused:
+	•	→ or K: next node on path
+	•	← or J: previous node on path
+	•	Space: play/pause auto-advance
+	•	ESC: exit path mode
+
+In 3D:
+	•	W/A/S/D: optional WASD camera movement
+	•	Mouse drag: orbit
+	•	Right drag: pan
+	•	Scroll: zoom
+
+13.12 Performance Considerations
+
+Salience computation:
+	•	Recalculate only when:
+	•	selectedNodeId changes
+	•	focusPath changes
+	•	filters change
+	•	Use memoization (useMemo) to avoid per-frame recalc
+
+LOD (Level of Detail) in 3D:
+	•	Far: render as point sprites (GPU instanced)
+	•	Mid: render as low-poly shapes (octahedron ~8 faces)
+	•	Near: render as high-poly shapes (icosphere ~20 faces)
+	•	Switch based on screen-space size (not just distance)
+
+Culling:
+	•	Frustum culling: don't render nodes outside camera view
+	•	Occlusion culling (optional): skip nodes behind others
+
+Label rendering:
+	•	Use texture atlas or SDF fonts for crisp text
+	•	Only render labels for visible nodes with salience > 0.4
+	•	Billboarding: labels always face camera
+
+13.13 Accessibility Considerations
+
+All interactions must have keyboard equivalents:
+	•	Tab navigation: through visible nodes
+	•	Enter: select focused node
+	•	Arrow keys: navigate graph or path
+	•	Screen reader: announce node title, type, domain when focused
+
+Tooltips and cards:
+	•	ARIA labels: "Node details for [title]"
+	•	role="tooltip" for hover tooltips
+	•	Ensure sufficient color contrast (WCAG AA)
+
+Reduced motion:
+	•	Respect prefers-reduced-motion media query
+	•	Disable/shorten animations if user preference set
+
+⸻
+
 12. Open Questions for Later Phases
 	•	How to optionally map nodes to external ontologies (BFO, DOLCE, SUMO) via metadata when desired.
 	•	How to expose an API for external tools:

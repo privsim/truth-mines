@@ -968,3 +968,534 @@ docs/62-comprehensive-readme
 
 *For complete details on remaining issues #17-#66, see individual issue tickets in GitHub or continue reading the extended ROADMAP...*
 
+
+---
+
+## Epic 9: Enhanced Visualization & Interaction
+
+*New Epic - Extends PRD Section 13: Visualization & Interaction*
+
+*Epic introduced after initial implementation to transform the graph from abstract visualization into visceral knowledge exploration environment with rich interactions, content preview, and path travel.*
+
+### Issue #67: Hover Tooltip System
+
+**Labels:** `frontend`, `interaction`, `tdd`, `enhancement`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 6 hours
+**Dependencies:** #33 (Graph2D)
+
+**Description:**
+Implement hover tooltip system that shows node preview (title, type, domain, 120-char content snippet) when mouse hovers over nodes in 2D or 3D view.
+
+**Tasks:**
+- [ ] Create NodeTooltip component with positioning logic
+- [ ] Add hover detection to Graph2D
+- [ ] Implement 150ms debounce on appearance
+- [ ] Implement 300ms delay on disappearance
+- [ ] Add edge-flip logic (detect screen boundaries)
+- [ ] Style with dark theme and drop shadow
+- [ ] Write comprehensive component tests
+
+**Definition of Done:**
+- NodeTooltip component renders with correct data
+- Tooltip appears 150ms after hover begins
+- Content truncated at 120 characters with ellipsis
+- Tooltip positioned above/right, flips near edges
+- Tooltip disappears 300ms after mouse leaves
+- All tests passing (5+ tests)
+
+**Test Plan:**
+```typescript
+describe('NodeTooltip', () => {
+  test('renders with node data')
+  test('truncates content at 120 chars with ellipsis')
+  test('positions above and right of node by default')
+  test('flips to left when near right screen edge')
+  test('flips below when near top screen edge')
+})
+
+describe('Graph2D with hover', () => {
+  test('shows tooltip 150ms after hover')
+  test('hides tooltip 300ms after mouse leaves')
+  test('hovering new node replaces tooltip immediately')
+  test('tooltip content matches hovered node')
+}
+```
+
+---
+
+### Issue #68: Node Selection with Camera Centering
+
+**Labels:** `frontend`, `interaction`, `tdd`, `camera`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 8 hours
+**Dependencies:** #67
+
+**Description:**
+Implement node selection (click) that centers camera on node, transitions to NodeFocused state, and opens Node Details panel.
+
+**Tasks:**
+- [ ] Add click detection to Graph2D and Graph3D
+- [ ] Implement camera centering animation (2D: 300ms, 3D: 800ms)
+- [ ] Add selectedNodeId state management in App
+- [ ] Implement smooth pan/zoom for 2D
+- [ ] Implement fly-to animation for 3D (cubic easing)
+- [ ] Connect click to NodeDetail panel opening
+- [ ] Write tests for state transitions and animations
+
+**Definition of Done:**
+- Clicking node sets selectedNodeId
+- Camera smoothly animates to center node
+- Animation duration matches spec (2D: 300ms, 3D: 800ms)
+- Node Details panel opens/updates with selected node
+- Clicking background clears selection
+- All tests passing (7+ tests)
+
+**Test Plan:**
+```typescript
+test('clicking node sets selectedNodeId')
+test('camera centers on selected node in 2D')
+test('camera flies to node in 3D (800ms animation)')
+test('NodeDetail panel opens with correct node')
+test('clicking background clears selection')
+test('clicking new node updates selection and camera')
+test('animation easing is smooth (cubic ease-in-out)')
+```
+
+---
+
+### Issue #69: K-Hop Neighborhood Highlighting
+
+**Labels:** `frontend`, `engine`, `interaction`, `tdd`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 10 hours
+**Dependencies:** #68
+
+**Description:**
+When node is selected, highlight its k-hop neighborhood (default k=2) with salience-based visual weight. Background nodes dimmed to 0.2 opacity.
+
+**Tasks:**
+- [ ] Add get_k_hop_subgraph(node_id, k) method to WASM engine (Rust)
+- [ ] Write Rust tests for subgraph extraction
+- [ ] Implement salience computation in TypeScript
+- [ ] Apply salience to node sizes, opacities in Graph2D/3D
+- [ ] Add configurable k value (UI setting)
+- [ ] Write integration tests for highlighting
+
+**Definition of Done:**
+- Engine returns k-hop neighbors and connecting edges
+- Salience formula implemented: focus + neighbor weights
+- Highlighted nodes: larger, brighter
+- Background nodes: opacity 0.2
+- Edges within neighborhood: visible
+- Edges outside neighborhood: hidden or very dim
+- All tests passing (Rust: 5+, TypeScript: 6+)
+
+**Test Plan (Rust):**
+```rust
+test_get_k_hop_subgraph_1_hop()
+test_get_k_hop_subgraph_2_hop()
+test_subgraph_includes_connecting_edges()
+test_subgraph_excludes_external_edges()
+test_subgraph_empty_for_isolated_node()
+```
+
+**Test Plan (TypeScript):**
+```typescript
+test('computes salience for focused node (1.0)')
+test('computes salience for 1-hop neighbors (decayed)')
+test('background nodes have low salience (< 0.3)')
+test('applies salience to node size')
+test('applies salience to node opacity')
+test('only renders edges within neighborhood')
+```
+
+---
+
+### Issue #70: Justification Tree Layout Mode
+
+**Labels:** `frontend`, `layout`, `tdd`, `interaction`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 12 hours
+**Dependencies:** #69
+
+**Description:**
+Add justification tree mode that displays support structure as hierarchical tree with selected node as root and foundations at leaves.
+
+**Tasks:**
+- [ ] Implement Reingold-Tilford tree layout algorithm
+- [ ] Add tree mode toggle to App state
+- [ ] Filter edges to epistemic relations only (supports, proves, entails, predicts)
+- [ ] Create JustificationTreeView component
+- [ ] Add "Back to graph" button
+- [ ] Support clicking tree node to re-root
+- [ ] Write comprehensive tests
+
+**Definition of Done:**
+- Tree layout algorithm positions nodes without overlap
+- Selected node at top-center
+- Foundation nodes at bottom
+- Only epistemic edges included
+- Clicking tree node makes it new root (re-layout)
+- Maximum depth enforced (8 levels)
+- Toggle back to graph restores previous layout
+- All tests passing (8+ tests)
+
+**Test Plan:**
+```typescript
+test('tree layout positions selected node at top')
+test('foundation nodes appear at bottom')
+test('only epistemic relations included in tree')
+test('clicking tree node re-roots tree')
+test('tree respects max depth limit of 8')
+test('back to graph button restores layout')
+test('tree mode preserves selectedNodeId')
+test('handles nodes with no support (shows message)')
+```
+
+---
+
+### Issue #71: Path Selection UI
+
+**Labels:** `frontend`, `interaction`, `tdd`, `paths`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 10 hours
+**Dependencies:** #68
+
+**Description:**
+Implement UI for selecting start/end nodes and choosing between multiple paths returned by engine.find_paths().
+
+**Tasks:**
+- [ ] Add context menu (right-click) with "Set as path start/end"
+- [ ] Create PathChooser modal component
+- [ ] Display all found paths with stats (hops, avg weight)
+- [ ] Add path selection handler
+- [ ] Implement focusPath state in App
+- [ ] Connect to engine.find_paths() via useGraphEngine
+- [ ] Write tests for path selection workflow
+
+**Definition of Done:**
+- Right-click menu shows path options
+- PathChooser displays all paths with node sequences
+- Selecting path sets focusPath in state
+- Path stats calculated correctly (hop count, avg weight)
+- Empty paths (no connection) handled gracefully
+- All tests passing (6+ tests)
+
+**Test Plan:**
+```typescript
+test('right-click shows context menu with path options')
+test('PathChooser renders all found paths')
+test('selecting path sets focusPath state')
+test('path hop count calculated correctly')
+test('path average weight computed')
+test('handles no paths found gracefully')
+```
+
+---
+
+### Issue #72: Path Travel with Keyboard Navigation
+
+**Labels:** `frontend`, `interaction`, `tdd`, `camera`, `paths`
+**Milestone:** Enhanced Interactions
+**Estimated Effort:** 14 hours
+**Dependencies:** #71
+
+**Description:**
+Implement path travel mode with keyboard navigation (←/→ or J/K), path stepper UI, and camera animation along path edges.
+
+**Tasks:**
+- [ ] Create PathStepper component (horizontal stepper)
+- [ ] Implement keyboard event handling (→/←, K/J, ESC)
+- [ ] Add path step state (currentStepIndex)
+- [ ] Implement camera animation along edges (500ms per edge)
+- [ ] Update NodeDetail panel as steps progress
+- [ ] Add edge pulse effect for current transition
+- [ ] Optional: Play/pause auto-advance
+- [ ] Write comprehensive interaction tests
+
+**Definition of Done:**
+- PathStepper renders with all path nodes
+- Current step highlighted
+- → key advances one step
+- ← key goes back one step
+- Camera animates smoothly between nodes (500ms)
+- NodeDetail updates to current step node
+- ESC exits path mode
+- Background nodes dimmed (opacity 0.15)
+- Path edges highlighted (thick, glowing)
+- All tests passing (10+ tests)
+
+**Test Plan:**
+```typescript
+// PathStepper component
+test('renders all path nodes')
+test('highlights current step')
+test('clicking step jumps to that node')
+test('shows relation labels on arrows')
+
+// Path navigation
+test('arrow right advances one step')
+test('arrow left goes back one step')
+test('wraps or stops at path endpoints')
+test('ESC key exits path mode')
+test('camera animates between steps')
+test('NodeDetail updates to current step')
+test('background nodes dimmed appropriately')
+test('path edges highlighted with glow')
+```
+
+---
+
+### Issue #73: LOD System for 3D
+
+**Labels:** `frontend`, `3d`, `webgpu`, `tdd`, `performance`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 12 hours
+**Dependencies:** #40 (WebGPU renderer)
+
+**Description:**
+Implement Level of Detail (LOD) system that renders nodes differently based on camera distance: far (point sprites), mid (low-poly), near (high-poly).
+
+**Tasks:**
+- [ ] Define distance thresholds (far > 100, mid 20-100, near < 20)
+- [ ] Implement per-node LOD calculation based on camera distance
+- [ ] Add point sprite rendering for far LOD
+- [ ] Add low-poly shape rendering for mid LOD
+- [ ] Add high-poly shape rendering for near LOD
+- [ ] Implement smooth LOD transitions
+- [ ] Write tests for LOD selection logic
+
+**Definition of Done:**
+- Nodes render as points when far (> 100 units)
+- Nodes render as low-poly when mid distance
+- Nodes render as high-poly when near
+- LOD transitions smooth (no popping)
+- Performance: maintains 60fps with 1000+ nodes
+- Screen-space size considered (not just distance)
+- All tests passing (5+ tests)
+
+**Test Plan:**
+```typescript
+test('selects point sprite LOD for far nodes')
+test('selects low-poly LOD for mid-distance nodes')
+test('selects high-poly LOD for near nodes')
+test('LOD based on screen-space size, not just distance')
+test('frustum culling excludes off-screen nodes')
+```
+
+---
+
+### Issue #74: Node Inspection Cards (3D Close-Up)
+
+**Labels:** `frontend`, `3d`, `interaction`, `tdd`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 10 hours
+**Dependencies:** #73
+
+**Description:**
+When camera gets very close to a node (< 10 units), display Node Inspection Card overlay with full content, formal notation, and quick actions.
+
+**Tasks:**
+- [ ] Create NodeInspectionCard component
+- [ ] Add distance-to-camera calculation
+- [ ] Implement card fade-in when distance < threshold
+- [ ] Display full content (scrollable)
+- [ ] Add formal notation block
+- [ ] Add quick action buttons (justification, attacks, show in 2D)
+- [ ] Write component and integration tests
+
+**Definition of Done:**
+- Card appears when camera < 10 units from focused node
+- Shows title, domain/type, full content, formal, tags
+- Content scrollable if exceeds card height
+- Card fades out when camera moves away
+- Quick action buttons functional
+- All tests passing (6+ tests)
+
+**Test Plan:**
+```typescript
+test('card appears when distance < 10 units')
+test('card shows correct node data')
+test('content scrollable when long')
+test('formal notation rendered in code block')
+test('card fades out when camera moves away')
+test('quick action buttons trigger correct handlers')
+```
+
+---
+
+### Issue #75: Tunnel Rendering for Path Edges (3D)
+
+**Labels:** `frontend`, `3d`, `webgpu`, `tdd`, `paths`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 8 hours
+**Dependencies:** #72
+
+**Description:**
+When focusPath is active in 3D, render path edges as glowing tunnels (cylindrical geometry) with relation-specific colors.
+
+**Tasks:**
+- [ ] Create tunnel geometry (cylinder or ribbon quads)
+- [ ] Implement emissive material for glow
+- [ ] Apply relation-specific colors
+- [ ] Set tunnel width (2-3× normal edge)
+- [ ] Only render tunnels for focusPath edges
+- [ ] Add subtle animation (pulsing glow optional)
+- [ ] Write rendering tests
+
+**Definition of Done:**
+- Path edges rendered as 3D tunnels
+- Tunnel color matches relation (green supports, blue proves, etc.)
+- Emissive material creates glow effect
+- Tunnels 2-3× wider than normal edges
+- Only focusPath edges render as tunnels
+- All tests passing (4+ tests)
+
+**Test Plan:**
+```typescript
+test('tunnels only render for focusPath edges')
+test('tunnel color matches edge relation')
+test('tunnel width 2-3x normal edge width')
+test('emissive material applied for glow')
+```
+
+---
+
+### Issue #76: Camera Spline Animation Along Paths (3D)
+
+**Labels:** `frontend`, `3d`, `camera`, `tdd`, `animation`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 10 hours
+**Dependencies:** #75
+
+**Description:**
+Implement smooth camera animation along path using cubic Hermite spline interpolation for path travel in 3D.
+
+**Tasks:**
+- [ ] Implement cubic Hermite spline algorithm
+- [ ] Add compute_camera_spline(path) to engine (Rust) - returns control points
+- [ ] Implement camera position interpolation (2 seconds per edge)
+- [ ] Add look-ahead: camera faces next node
+- [ ] Implement dwell at nodes (1.5 seconds)
+- [ ] Sync with content card fade-in/out
+- [ ] Write animation and timing tests
+
+**Definition of Done:**
+- Camera follows smooth spline between path nodes
+- Animation duration: ~2 seconds per edge
+- Camera orientation leads position (looks ahead)
+- Dwells at each node for 1.5 seconds
+- Content card synced with animation
+- Easing: cubic ease-in-out
+- All tests passing (6+ tests)
+
+**Test Plan:**
+```typescript
+test('spline generates smooth curve through nodes')
+test('camera position interpolates over 2 seconds per edge')
+test('camera looks ahead at next node')
+test('dwells at node for 1.5 seconds')
+test('content card fades in as approaching node')
+test('animation cancelable (user input stops it)')
+```
+
+---
+
+### Issue #77: Raycast Hover & Selection (3D)
+
+**Labels:** `frontend`, `3d`, `webgpu`, `tdd`, `interaction`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 8 hours
+**Dependencies:** #74
+
+**Description:**
+Implement ray casting from mouse position to detect node hover and click in 3D view, enabling same interactions as 2D.
+
+**Tasks:**
+- [ ] Implement screen-to-world ray calculation
+- [ ] Implement ray-sphere intersection test
+- [ ] Add per-frame raycast on mouse move
+- [ ] Highlight hovered node (pulse or halo)
+- [ ] Trigger tooltip on hover
+- [ ] Trigger selection on click
+- [ ] Write ray intersection tests
+
+**Definition of Done:**
+- Mouse position converts to world-space ray
+- Ray intersects with node bounding spheres
+- Closest intersected node highlighted on hover
+- Clicking intersected node selects it
+- Tooltip appears on hover (uses NodeTooltip)
+- Performance: raycast < 5ms per frame
+- All tests passing (5+ tests)
+
+**Test Plan:**
+```typescript
+test('screen point converts to world ray')
+test('ray intersects sphere correctly')
+test('finds closest node when multiple intersections')
+test('hover highlights node with pulse effect')
+test('click on node triggers selection')
+```
+
+---
+
+### Issue #78: Complete 2D/3D State Synchronization
+
+**Labels:** `frontend`, `interaction`, `tdd`, `state`
+**Milestone:** 3D Enhanced
+**Estimated Effort:** 6 hours
+**Dependencies:** #72, #76
+
+**Description:**
+Ensure selectedNodeId, focusPath, and interaction state fully synchronized when toggling between 2D and 3D views.
+
+**Tasks:**
+- [ ] Lift state to App component (selectedNodeId, focusPath, interactionMode)
+- [ ] Pass state to both Graph2D and Graph3D
+- [ ] Preserve camera position mapping between views
+- [ ] Sync path step index across views
+- [ ] Test all state transitions when toggling
+- [ ] Document state management architecture
+
+**Definition of Done:**
+- Toggling 2D→3D preserves selectedNodeId
+- focusPath persists across view toggle
+- Path step index maintained
+- Camera re-centers on selected node after toggle
+- Filter state also preserved
+- All tests passing (7+ tests)
+
+**Test Plan:**
+```typescript
+test('selectedNodeId preserved when toggling views')
+test('focusPath preserved when toggling views')
+test('path step index maintained across toggle')
+test('camera centers on selected node after toggle')
+test('filter state unchanged by view toggle')
+test('all interaction modes work in both views')
+test('state management centralized in App')
+```
+
+---
+
+## Epic 9 Summary
+
+**Total Issues:** 12 (6 for 2D enhancements + 6 for 3D enhancements)
+
+**Estimated Timeline:** 6-8 weeks (parallel work possible)
+
+**Dependencies:**
+- All build on existing Epic 3 (Frontend) and Epic 4 (3D architecture)
+- Can be implemented incrementally
+- Each issue delivers user-visible value
+
+**Value Proposition:**
+Transforms Truth Mines from "graph visualization tool" to "immersive knowledge exploration environment" where users can:
+- Hover to preview content
+- Click to explore deeply
+- Travel through argument paths step-by-step
+- Experience epistemic structure viscerally
+- Navigate between 2D overview and 3D immersion seamlessly
+
