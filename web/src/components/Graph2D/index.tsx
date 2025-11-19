@@ -11,6 +11,7 @@ import './Graph2D.css';
 interface Graph2DProps {
   nodes: GraphSummary;
   selectedNodeId?: string | null;
+  focusPath?: string[] | null;
   onNodeSelect?: (nodeId: string) => void;
 }
 
@@ -31,7 +32,7 @@ const DOMAIN_COLORS: Record<string, string> = {
  * - Salience-based sizing (including Gemini tension)
  * - Domain-based coloring
  */
-export function Graph2D({ nodes, selectedNodeId = null, onNodeSelect }: Graph2DProps) {
+export function Graph2D({ nodes, selectedNodeId = null, focusPath = null, onNodeSelect }: Graph2DProps) {
   const graphRef = useRef<any>();
   const { edges, loading: edgesLoading } = useEdges();
   const { hover, setHoveredNode, clearHover } = useHover();
@@ -39,11 +40,11 @@ export function Graph2D({ nodes, selectedNodeId = null, onNodeSelect }: Graph2DP
   // Compute neighbors for salience calculation
   const neighbors = useNeighbors(selectedNodeId, edges);
 
-  // Compute salience for all nodes (includes tension!)
+  // Compute salience for all nodes (includes tension + focus path!)
   const salience = useSalience(
     nodes,
     selectedNodeId,
-    null, // focusPath (TODO: implement useFocusPath)
+    focusPath, // Focus path highlighting (Gemini-approved)
     neighbors,
     edges  // For tension calculation
   );
@@ -92,8 +93,29 @@ export function Graph2D({ nodes, selectedNodeId = null, onNodeSelect }: Graph2DP
     return shouldShowLabel(nodeSalience) ? node.name : '';
   }, [salience]);
 
-  // Edge styling based on relation type
+  // Check if edge is on focus path
+  const isLinkOnPath = useCallback((link: any): boolean => {
+    if (!focusPath || focusPath.length < 2) return false;
+
+    for (let i = 0; i < focusPath.length - 1; i++) {
+      if (link.source.id === focusPath[i] && link.target.id === focusPath[i + 1]) {
+        return true;
+      }
+      // Also check string IDs (force-graph might use either)
+      if (link.source === focusPath[i] && link.target === focusPath[i + 1]) {
+        return true;
+      }
+    }
+    return false;
+  }, [focusPath]);
+
+  // Edge styling based on relation type and path
   const linkColor = useCallback((link: any) => {
+    // Path edges: gold (Gemini-approved)
+    if (isLinkOnPath(link)) {
+      return '#FBBF24';
+    }
+
     const relationColors: Record<string, string> = {
       supports: '#22C55E',   // Green
       attacks: '#EF4444',    // Red
@@ -103,10 +125,19 @@ export function Graph2D({ nodes, selectedNodeId = null, onNodeSelect }: Graph2DP
       explains: '#F59E0B',   // Amber
     };
     return relationColors[link.relation] || '#9CA3AF';
-  }, []);
+  }, [isLinkOnPath]);
 
   const linkWidth = useCallback((link: any) => {
-    return (link.weight || 0.7) * 2;  // Scale by weight
+    const baseWidth = (link.weight || 0.7) * 2;
+    // Path edges: 2× thicker (Gemini spec)
+    return isLinkOnPath(link) ? baseWidth * 2 : baseWidth;
+  }, [isLinkOnPath]);
+
+  // Solid vs dashed based on deductive vs inductive (Gemini-approved)
+  const linkLineDash = useCallback((link: any) => {
+    const deductiveRelations = ['proves', 'entails'];
+    const isDeductive = deductiveRelations.includes(link.relation);
+    return isDeductive ? [] : [5, 5];  // Solid for deductive, dashed for inductive
   }, []);
 
   // Interaction handlers
@@ -140,6 +171,7 @@ export function Graph2D({ nodes, selectedNodeId = null, onNodeSelect }: Graph2DP
         nodeLabel={nodeLabel}
         linkColor={linkColor}
         linkWidth={linkWidth}
+        linkLineDash={linkLineDash}
         linkDirectionalArrowLength={3}
         linkDirectionalArrowRelPos={1}
         onNodeClick={handleNodeClick}

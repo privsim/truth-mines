@@ -1,5 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useGraphData } from './hooks/useGraphData';
+import { useEdges } from './hooks/useEdges';
+import { useFocusPath } from './hooks/useFocusPath';
 import { Graph2D } from './components/Graph2D';
 import { NodeDetail } from './components/NodeDetail';
 import { Filters, type FilterState } from './components/Filters';
@@ -18,6 +20,10 @@ function App() {
   const [searchResults, setSearchResults] = useState<string[]>([]);
 
   const { graphSummary, loading, error } = useGraphData();
+  const { edges } = useEdges();
+
+  // Compute focus path for selected node (Gemini: strongest path algorithm)
+  const focusPathResult = useFocusPath(selectedNodeId, edges);
 
   // Filter nodes based on domain/type filters and search results
   const filteredNodes = useMemo(() => {
@@ -92,6 +98,7 @@ function App() {
             <Graph2D
               nodes={filteredNodes}
               selectedNodeId={selectedNodeId}
+              focusPath={focusPathResult?.path || null}
               onNodeSelect={setSelectedNodeId}
             />
           ) : (
@@ -103,7 +110,13 @@ function App() {
         </main>
 
         {selectedNodeId && (
-          <NodeDetail nodeId={selectedNodeId} onClose={() => setSelectedNodeId(null)} />
+          <NodeDetail
+            nodeId={selectedNodeId}
+            focusPathResult={focusPathResult}
+            edges={edges}
+            onClose={() => setSelectedNodeId(null)}
+            onNavigate={setSelectedNodeId}
+          />
         )}
       </div>
     </div>

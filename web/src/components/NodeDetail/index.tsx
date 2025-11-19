@@ -1,22 +1,36 @@
 import { useState, useEffect } from 'react';
-import type { Node } from '../../types/graph';
-import { JustificationTree } from '../JustificationTree';
-import { AttacksView } from '../AttacksView';
-import { CrossDomainLinks } from '../CrossDomainLinks';
+import type { Node, Edge } from '../../types/graph';
+import type { FocusPathResult } from '../../hooks/useFocusPath';
+import { JustificationTab } from './JustificationTab';
+import { AttacksTab } from './AttacksTab';
+import { CrossDomainTab } from './CrossDomainTab';
+import { computeTension } from '../../hooks/useSalience';
 import './NodeDetail.css';
 
 interface NodeDetailProps {
   nodeId: string | null;
+  focusPathResult?: FocusPathResult | null;
+  edges?: Edge[];
   onClose: () => void;
+  onNavigate?: (nodeId: string) => void;
 }
 
 type TabType = 'overview' | 'justification' | 'attacks' | 'cross-domain';
 
-export function NodeDetail({ nodeId, onClose }: NodeDetailProps) {
+export function NodeDetail({
+  nodeId,
+  focusPathResult = null,
+  edges = [],
+  onClose,
+  onNavigate = () => {},
+}: NodeDetailProps) {
   const [node, setNode] = useState<Node | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>('overview');
+
+  // Compute tension for display in Overview (Gemini: show in Overview, not Attacks)
+  const tension = nodeId && edges.length > 0 ? computeTension(nodeId, edges) : 0;
 
   useEffect(() => {
     if (!nodeId) {
@@ -133,12 +147,28 @@ export function NodeDetail({ nodeId, onClose }: NodeDetailProps) {
                     </div>
                   </div>
                 )}
+
+                {/* Tension score (Gemini: in Overview tab) */}
+                {tension > 0 && (
+                  <div className="node-field">
+                    <label>Tension:</label>
+                    <span className={tension >= 0.7 ? 'tension-high' : tension >= 0.3 ? 'tension-medium' : ''}>
+                      {tension.toFixed(2)} {tension >= 0.7 ? '(High Controversy)' : tension >= 0.3 ? '(Debated)' : '(Low)'}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
 
-            {activeTab === 'justification' && <JustificationTree nodeId={node.id} />}
-            {activeTab === 'attacks' && <AttacksView nodeId={node.id} />}
-            {activeTab === 'cross-domain' && <CrossDomainLinks nodeId={node.id} />}
+            {activeTab === 'justification' && (
+              <JustificationTab pathResult={focusPathResult} edges={edges} onNavigate={onNavigate} />
+            )}
+            {activeTab === 'attacks' && (
+              <AttacksTab nodeId={node.id} edges={edges} onNavigate={onNavigate} />
+            )}
+            {activeTab === 'cross-domain' && (
+              <CrossDomainTab nodeId={node.id} edges={edges} onNavigate={onNavigate} />
+            )}
           </div>
         </>
       )}

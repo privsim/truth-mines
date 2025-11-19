@@ -1,0 +1,79 @@
+.edge-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+.edge-indicator {
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.edge-deductive .edge-indicator {
+  color: #a855f7; /* Purple - deductive */
+}
+
+.edge-inductive .edge-indicator {
+  color: #22c55e; /* Green - inductive */
+}
+
+.edge-info {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.edge-relation {
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.edge-weight {
+  color: #94a3b8;
+  font-family: monospace;
+}
+
+.edge-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.metadata-item {
+  font-style: italic;
+}
+
+/* Relation-specific colors */
+.relation-supports .edge-relation {
+  color: #22c55e;
+}
+
+.relation-attacks .edge-relation {
+  color: #ef4444;
+}
+
+.relation-proves .edge-relation {
+  color: #a855f7;
+}
+
+.relation-entails .edge-relation {
+  color: #3b82f6;
+}
+
+.relation-predicts .edge-relation {
+  color: #f97316;
+}
+
+.relation-explains .edge-relation {
+  color: #f59e0b;
+}
