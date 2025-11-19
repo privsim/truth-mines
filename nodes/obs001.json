@@ -2,14 +2,16 @@
   "id": "obs001",
   "type": "observation",
   "domain": "physics",
-  "title": "Gravitational lensing",
-  "content": "Light from distant stars is bent when passing near massive objects, as observed during solar eclipses.",
+  "title": "Gravitational Lensing (Interpreted)",
+  "status": "stable",
+  "content": "Light from distant stars is bent when passing near massive objects. This interpretation requires: (1) theory of light propagation, (2) theory of optics, (3) General Relativity. The deflection is understood as spacetime curvature bending light paths.",
   "formal": "Δθ ≈ 4GM/(c²b)",
-  "tags": ["gravity", "observation", "light", "empirical"],
+  "tags": ["gravity", "observation", "light", "empirical", "interpreted", "general_relativity"],
   "metadata": {
     "importance": 9.0,
     "certainty": 0.99
   },
   "sources": ["eddington1919"],
-  "created": "2025-01-12T15:00:00Z"
+  "created": "2025-01-12T15:00:00Z",
+  "updated": "2025-11-18T20:30:00Z"
 }

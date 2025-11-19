@@ -41,6 +41,17 @@
       "maxLength": 200,
       "description": "Short, human-readable title for the node"
     },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "stable", "refuted", "archived"],
+      "default": "stable",
+      "description": "Lifecycle status of the node (Gemini 3 Pro addition for knowledge base management)"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$",
+      "description": "Optional namespace for federated knowledge bases (default: 'local'). Enables future modularization."
+    },
     "content": {
       "type": "string",
       "description": "Natural language explanation or statement of the node"
@@ -82,10 +93,21 @@
           "maximum": 10
         },
         "axiom_system": {
-          "type": "string"
+          "type": "string",
+          "description": "Axiom system used (e.g., 'ZFC', 'Peano', 'Euclidean')"
+        },
+        "foundational_system": {
+          "type": "string",
+          "enum": ["ZFC", "HoTT", "CategoryTheory", "ClassicalLogic", "IntuitionisticLogic", "Other"],
+          "description": "Foundational system for mathematics/logic nodes (Gemini 3 Pro addition to avoid ZFC hard-lock)"
+        },
+        "contested": {
+          "type": "boolean",
+          "description": "True if node has significant attacks/controversy (Gemini 3 Pro addition for visual highlighting)"
         },
         "proof_id": {
-          "type": "string"
+          "type": "string",
+          "description": "Reference to external proof document or ID"
         },
         "regime": {
           "type": "string",

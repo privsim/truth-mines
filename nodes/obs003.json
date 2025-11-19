@@ -2,14 +2,17 @@
   "id": "obs003",
   "type": "observation",
   "domain": "physics",
-  "title": "Double-slit interference pattern",
-  "content": "When particles are sent through a double slit one at a time, they create an interference pattern over time, demonstrating wave-particle duality.",
+  "title": "Double-Slit Interference (Interpreted)",
+  "status": "stable",
+  "content": "When particles are sent through a double slit one at a time, they create an interference pattern over time. This interpretation as 'interference' and 'wave-particle duality' requires quantum mechanics framework. The pattern demonstrates superposition of quantum states.",
   "formal": "I(x) ∝ |ψ₁(x) + ψ₂(x)|²",
-  "tags": ["quantum", "interference", "wave_particle_duality", "empirical"],
+  "tags": ["quantum", "interference", "wave_particle_duality", "empirical", "interpreted"],
   "metadata": {
     "importance": 9.5,
-    "certainty": 0.999
+    "certainty": 0.999,
+    "regime": "quantum"
   },
   "sources": ["young1801", "tonomura1989"],
-  "created": "2025-01-11T12:00:00Z"
+  "created": "2025-01-11T12:00:00Z",
+  "updated": "2025-11-18T20:30:00Z"
 }

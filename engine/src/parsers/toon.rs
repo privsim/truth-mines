@@ -95,6 +95,7 @@ pub fn parse_toon(toon_content: &str) -> Result<Vec<Edge>, String> {
                 relation: relation.clone(),
                 domain: domain.to_string(),
                 weight,
+            metadata: None,
             });
         }
     }

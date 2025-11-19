@@ -1,0 +1,16 @@
+{
+  "id": "0vt001",
+  "type": "theory",
+  "domain": "philosophy",
+  "title": "Virtue Epistemology",
+  "status": "stable",
+  "content": "Knowledge is true belief arising from intellectual virtue or reliable cognitive faculties. Bridges the gap between internalism and externalism by focusing on the agent's cognitive character and reliability.",
+  "tags": ["epistemology", "virtue", "reliabilism", "sosa", "zagzebski"],
+  "metadata": {
+    "importance": 7.5,
+    "certainty": 0.7,
+    "modality": "contingent"
+  },
+  "sources": ["sosa1980", "zagzebski1996"],
+  "created": "2025-11-18T20:00:00Z"
+}

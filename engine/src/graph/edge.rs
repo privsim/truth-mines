@@ -19,6 +19,9 @@ pub struct Edge {
     /// Optional weight/strength (0-1)
     #[serde(rename = "w", skip_serializing_if = "Option::is_none")]
     pub weight: Option<f32>,
+    /// Optional metadata for the edge (Gemini 3 Pro addition for conditions, etc.)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<serde_json::Value>,
 }
 
 #[cfg(test)]
@@ -66,6 +69,7 @@ mod tests {
             relation: "entails".to_string(),
             domain: "philosophy".to_string(),
             weight: Some(0.75),
+            metadata: None,
         };
 
         let json = serde_json::to_string(&edge).unwrap();
@@ -82,6 +86,7 @@ mod tests {
             relation: "supports".to_string(),
             domain: "philosophy".to_string(),
             weight: Some(0.9),
+            metadata: None,
         };
 
         let json_value = serde_json::to_value(&edge).unwrap();
@@ -103,6 +108,7 @@ mod tests {
             relation: "attacks".to_string(),
             domain: "philosophy".to_string(),
             weight: None,
+            metadata: None,
         };
 
         let json = serde_json::to_string(&edge).unwrap();

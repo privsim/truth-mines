@@ -75,6 +75,7 @@ mod tests {
             relation: "supports".to_string(),
             domain: "philosophy".to_string(),
             weight: Some(0.9),
+            metadata: None,
         }
     }
 

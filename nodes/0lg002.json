@@ -1,0 +1,18 @@
+{
+  "id": "0lg002",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Law of Identity",
+  "status": "stable",
+  "content": "For all propositions P: P is identical to itself (P = P). The most basic law of classical logic. Every entity is identical with itself.",
+  "formal": "∀P (P ≡ P)",
+  "tags": ["logic", "identity", "classical_logic", "foundations"],
+  "metadata": {
+    "importance": 9,
+    "certainty": 1.0,
+    "foundational_system": "ClassicalLogic",
+    "contested": false
+  },
+  "sources": ["aristotle_metaphysics"],
+  "created": "2025-11-18T20:00:00Z"
+}

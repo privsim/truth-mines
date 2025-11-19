@@ -39,6 +39,8 @@ values = [
 [relations.physics]
 values = [
     "predicts",             # Theory predicts observation
+    "explains",             # Theory explains phenomenon (Gemini addition: backward-looking)
+    "limiting_case_of",     # Formal limiting case (Gemini addition: stronger than approximates)
     "tests",                # Experimental test of theory
     "approximates",         # Approximation relationship
     "reduces_to",           # Reduction (e.g., classical limit)
@@ -54,6 +56,36 @@ values = [
     "empirical_grounding",         # Physics → Other (empirical basis)
     "applies_to"                   # General application relationship
 ]
+
+# Relation inverses (Gemini 3 Pro addition)
+# Enables backward reasoning for LLMs without explicit reverse edges
+# These are metadata for reasoning, not storage - actual edges remain directed
+[relations.inverses]
+supports = "supported_by"
+attacks = "attacked_by"
+entails = "entailed_by"
+proves = "proven_by"
+predicts = "predicted_by"
+explains = "explained_by"
+limiting_case_of = "limiting_case_yields"
+defines = "defined_by"
+generalizes = "specialized_by"
+approximates = "approximated_by"
+reduces_to = "reduces_from"
+formalizes = "formalized_by"
+models = "modeled_by"
+presupposes = "presupposed_by"
+refutes = "refuted_by"
+lemma_for = "has_lemma"
+corollary_of = "has_corollary"
+tests = "tested_by"
+unifies = "unified_by"
+equivalent = "equivalent_to"  # symmetric
+cites = "cited_by"
+explicates = "explicated_by"
+philosophical_foundation = "philosophically_grounded_in"
+empirical_grounding = "empirically_grounded_in"
+applies_to = "applied_from"
 
 # Validation settings
 [validation]

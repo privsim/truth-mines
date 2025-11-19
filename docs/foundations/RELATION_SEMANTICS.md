@@ -182,8 +182,11 @@ Analyzing knowledge presupposes understanding truth.
 
 **Semantic:** A is a formal proof of B within a specified axiom system.
 
+**Refinement (Gemini 3 Pro):** `proves` implies a finite sequence of derivation steps exists *within the graph or referenced text*. This is syntactic/constructive. Contrast with `entails` (semantic, may not have explicit derivation).
+
 **Usage Criteria:**
 - **Requires:** Axiom system specified in metadata
+- **Proof exists:** There must be a derivation sequence (formal, informal, or proof sketch)
 - **Weight:**
   - 1.0: Complete formal proof
   - 0.8-0.99: Proof with minor gaps
@@ -199,6 +202,10 @@ Analyzing knowledge presupposes understanding truth.
 - **Transitivity:** Perfect (proofs compose)
 - **Formality:** Should reference proof object or ID
 - **Axiom-relative:** Different axiom systems can give different proof weights
+
+**Proves vs. Entails:**
+- `proves`: Syntactic - a derivation exists
+- `entails`: Semantic - the logical connection holds regardless of whether we have a derivation
 
 ---
 
@@ -323,6 +330,74 @@ Newton predicts orbits accurately (but not perfectly - see Mercury).
 
 ---
 
+#### explains(A, B, weight)
+
+**Semantic:** Theory A explains phenomenon B (backward-looking unification).
+
+**Gemini 3 Pro Addition:** This is the inverse of `predicts`. While `predicts` is forward-looking (theory → prediction), `explains` is backward-looking (theory → phenomenon already known).
+
+**Usage Criteria:**
+- A is a theory or principle
+- B is an observed phenomenon or regularity
+- A provides mechanistic or unifying explanation for why B occurs
+
+**Weight Interpretation:**
+- 1.0: Complete, widely accepted explanation
+- 0.8-0.99: Very good explanation with minor gaps
+- 0.6-0.79: Partial explanation
+- <0.6: Speculative or incomplete explanation
+
+**Examples:**
+```json
+{"f":"general_relativity","t":"gravitational_lensing_phenomenon","relation":"explains","w":0.99,"domain":"physics"}
+```
+GR explains why light bends around massive objects.
+
+```json
+{"f":"quantum_mechanics","t":"discrete_spectral_lines","relation":"explains","w":1.0,"domain":"physics"}
+```
+QM explains atomic spectra that classical physics could not.
+
+**Explains vs. Predicts:**
+- `explains`: Theory accounts for known phenomenon (historical/mechanistic)
+- `predicts`: Theory forecasts unknown observation (prospective/empirical)
+- Often both exist: Theory predicts X, then after observation, theory explains X
+
+---
+
+#### limiting_case_of(A, B, weight)
+
+**Semantic:** Theory A is a limiting case of theory B (stronger than `approximates`).
+
+**Gemini 3 Pro Addition:** This relation is stronger than `approximates` because it specifies a precise mathematical limit where A is derivable from B, not just empirically similar.
+
+**Usage Criteria:**
+- **Requires metadata:** Limiting condition (e.g., `v << c`, `ℏ → 0`, `G → 0`)
+- A is mathematically derivable from B in the specified limit
+- Not just empirical approximation - there's a formal reduction
+
+**Weight Interpretation:**
+- 1.0: Proven limiting case (formal derivation exists)
+- 0.8-0.99: Strong arguments for limit, minor gaps
+- <0.8: Heuristic or approximate limit
+
+**Examples:**
+```json
+{"f":"newtonian_mechanics","t":"special_relativity","relation":"limiting_case_of","w":1.0,"domain":"physics","metadata":{"condition":"v << c"}}
+```
+Newtonian mechanics is the low-velocity limit of special relativity.
+
+```json
+{"f":"newtonian_gravity","t":"general_relativity","relation":"limiting_case_of","w":0.95,"domain":"physics","metadata":{"condition":"weak_field_limit"}}
+```
+Newtonian gravity is the weak-field, low-velocity limit of GR.
+
+**Limiting_case_of vs. Approximates:**
+- `limiting_case_of`: Formal mathematical derivation in limit
+- `approximates`: Empirical similarity under conditions (may lack formal derivation)
+
+---
+
 ## Bridge Relations
 
 ### formalizes(A, B, weight)
@@ -336,11 +411,12 @@ Newton predicts orbits accurately (but not perfectly - see Mercury).
 - B is a mathematical structure (modal logic, causal models, probability)
 - Formalization captures essential structure
 
-**Weight:** Adequacy of formalization
-- 1.0: Widely accepted, captures all aspects
-- 0.7-0.99: Good but missing some nuances
-- 0.5-0.69: Partial formalization
-- <0.5: Toy model
+**Weight Criteria (Gemini 3 Pro Refinement):**
+- **1.0:** Isomorphism - perfect structural correspondence
+- **0.9:** Near-perfect, minor aspects not captured
+- **0.7:** Strong analogy - captures essential structure
+- **0.5:** Weak analogy - captures some aspects, toy model
+- **<0.5:** Metaphorical or highly incomplete
 
 **Examples:**
 ```json
@@ -387,6 +463,43 @@ Can't formulate GR without Riemannian geometry.
 ```
 
 **Question for Review:** Is this relation too vague? Should we be more specific about types of philosophical grounding?
+
+---
+
+## Relation Inverses
+
+**Gemini 3 Pro Suggestion:** To enable backward reasoning (especially for LLMs reading TOON format), we define inverse relations without requiring explicit reverse edges.
+
+**Implementation:** In `.truth-mines/schema.toml`, add `inverses` mapping:
+
+```toml
+[relations.inverses]
+supports = "supported_by"
+attacks = "attacked_by"
+entails = "entailed_by"
+proves = "proven_by"
+predicts = "predicted_by"
+explains = "explained_by"
+defines = "defined_by"
+generalizes = "specialized_by"
+approximates = "approximated_by"
+reduces_to = "reduces_from"
+limiting_case_of = "limiting_case_yields"
+formalizes = "formalized_by"
+models = "modeled_by"
+presupposes = "presupposed_by"
+refutes = "refuted_by"
+lemma_for = "has_lemma"
+equivalent = "equivalent_to"  # symmetric
+tests = "tested_by"
+```
+
+**Usage:**
+- When LLM reads: "A supports B" → can infer "B is supported_by A"
+- Graph traversal: Can find incoming edges without explicit storage
+- Reduces storage: Don't need to create bidirectional edges explicitly
+
+**Implementation Note:** This is metadata for reasoning, not storage. Actual edges remain directed. Renderer/query engine can use inverses for bidirectional queries.
 
 ---
 

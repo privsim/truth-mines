@@ -72,6 +72,10 @@ impl StyleConfig {
             type_id,
             flags: 0,
             scalar: 1.0, // Default scalar
+            tension: 0.0, // Computed later from edges (Gemini addition)
+            load_bearing: 0.0, // Computed later from graph structure (Gemini addition)
+            status: 0, // Node status flags (Gemini addition)
+            _padding: 0,
         }
     }
 
@@ -197,6 +201,7 @@ mod tests {
             relation: relation.to_string(),
             domain: "philosophy".to_string(),
             weight: Some(0.9),
+            metadata: None,
         }
     }
 
@@ -326,6 +331,7 @@ mathematics = [37, 99, 235]
             relation: "supports".to_string(),
             domain: "philosophy".to_string(),
             weight: Some(0.75),
+            metadata: None,
         };
 
         let gpu_edge = config.map_edge_to_gpu(&edge, 0, 1);
@@ -342,6 +348,7 @@ mathematics = [37, 99, 235]
             relation: "supports".to_string(),
             domain: "philosophy".to_string(),
             weight: None,
+            metadata: None,
         };
 
         let gpu_edge = config.map_edge_to_gpu(&edge, 0, 1);

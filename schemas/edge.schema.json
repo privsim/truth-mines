@@ -33,6 +33,8 @@
         "lemma_for",
         "corollary_of",
         "predicts",
+        "explains",
+        "limiting_case_of",
         "tests",
         "approximates",
         "reduces_to",
@@ -43,7 +45,7 @@
         "empirical_grounding",
         "applies_to"
       ],
-      "description": "Type of relationship between nodes"
+      "description": "Type of relationship between nodes. New: 'explains' (backward-looking), 'limiting_case_of' (formal limit) per Gemini 3 Pro review."
     },
     "w": {
       "type": "number",

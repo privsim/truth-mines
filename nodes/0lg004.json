@@ -1,0 +1,18 @@
+{
+  "id": "0lg004",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Law of Excluded Middle",
+  "status": "stable",
+  "content": "For all propositions P: Either P is true or ¬P is true (no middle ground). One of Aristotle's three laws of thought. Every proposition is either true or false.",
+  "formal": "∀P (P ∨ ¬P)",
+  "tags": ["logic", "excluded_middle", "classical_logic", "foundations", "contested"],
+  "metadata": {
+    "importance": 9,
+    "certainty": 0.95,
+    "foundational_system": "ClassicalLogic",
+    "contested": true
+  },
+  "sources": ["aristotle_metaphysics"],
+  "created": "2025-11-18T20:00:00Z"
+}

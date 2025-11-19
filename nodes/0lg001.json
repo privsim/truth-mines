@@ -1,0 +1,18 @@
+{
+  "id": "0lg001",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Modus Ponens",
+  "status": "stable",
+  "content": "If P is true, and (P → Q) is true, then Q is true. The most basic rule of deductive inference, used in virtually all reasoning.",
+  "formal": "P, P → Q ⊢ Q",
+  "tags": ["logic", "inference", "classical_logic", "foundations"],
+  "metadata": {
+    "importance": 10,
+    "certainty": 1.0,
+    "foundational_system": "ClassicalLogic",
+    "contested": false
+  },
+  "sources": ["aristotle_prior_analytics"],
+  "created": "2025-11-18T20:00:00Z"
+}

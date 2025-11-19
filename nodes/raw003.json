@@ -1,0 +1,15 @@
+{
+  "id": "raw003",
+  "type": "observation",
+  "domain": "physics",
+  "title": "Screen Pattern from Two-Slit Apparatus",
+  "status": "stable",
+  "content": "When particles are sent through a two-slit apparatus toward a detection screen, the screen shows a pattern of light and dark bands (fringes) rather than two distinct spots. Raw phenomenological observation without theoretical interpretation.",
+  "tags": ["raw_data", "interference", "pattern", "empirical", "phenomenological"],
+  "metadata": {
+    "importance": 9.0,
+    "certainty": 1.0
+  },
+  "sources": ["young1801", "tonomura1989"],
+  "created": "2025-11-18T20:30:00Z"
+}

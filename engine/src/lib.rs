@@ -11,6 +11,7 @@
 //! - `gpu`: GPU-friendly buffer types (`GpuNode`, `GpuEdge`)
 //! - `style`: Visual style mapping
 //! - `parsers`: Data parsers (JSON, TOON)
+//! - `analysis`: Graph analysis algorithms (Gemini 3 Pro additions)
 //! - `wasm`: WebAssembly bindings (when compiled to WASM)
 
 pub mod graph;
@@ -18,6 +19,7 @@ pub mod layout;
 pub mod gpu;
 pub mod style;
 pub mod parsers;
+pub mod analysis;
 
 #[cfg(target_arch = "wasm32")]
 pub mod wasm;

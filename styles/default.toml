@@ -149,6 +149,62 @@ enable_antialiasing = true
 enable_glow = true
 glow_intensity = 0.3
 
+# Controversy/Tension visualization (Gemini 3 Pro addition)
+[visual.controversy]
+# Enable tension-based visual effects
+enable_tension_visual = true
+
+# Tension color gradient (low -> medium -> high)
+tension_color_low = [37, 99, 235]      # Blue (#2563EB) - settled
+tension_color_medium = [234, 179, 8]   # Yellow (#EAB308) - debated
+tension_color_high = [249, 115, 22]    # Orange (#F97316) - intense controversy
+
+# Tension thresholds for visual effects
+tension_low_threshold = 0.3
+tension_medium_threshold = 0.5
+tension_high_threshold = 0.7
+
+# Enable pulsing animation for contested nodes
+enable_tension_pulse = true
+pulse_frequency = 2.0  # Hz
+pulse_amplitude = 0.2  # Size variation
+
+# Glow intensity for high-tension nodes
+tension_glow_intensity = 0.5
+
+# Load-bearing visualization (Gemini 3 Pro addition)
+[visual.load_bearing]
+# Enable load-bearing visual effects
+enable_load_visual = true
+
+# Load-bearing thresholds
+load_minor_threshold = 0.05    # 5% of graph
+load_significant_threshold = 0.2  # 20% of graph
+load_critical_threshold = 0.5  # 50% of graph
+
+# Pillar geometry for high-load nodes
+enable_pillar_geometry = true
+pillar_height_multiplier = 1.5  # Make critical nodes taller
+pillar_width_multiplier = 1.3   # Make critical nodes thicker
+
+# Structural glow for load-bearing nodes (blue/white)
+load_glow_color = [147, 197, 253]  # Light blue (#93C5FD)
+load_glow_intensity = 0.4
+
+# Color saturation boost for critical nodes
+load_saturation_boost = 0.2
+
+# Combined effects (tension + load-bearing)
+[visual.combined]
+# High tension + high load: critical controversy (e.g., contested Axiom of Choice)
+critical_controversy_color = [251, 146, 60]  # Bright orange (#FB923C)
+
+# Low tension + high load: settled foundation (e.g., Modus Ponens)
+settled_foundation_color = [96, 165, 250]  # Blue (#60A5FA)
+
+# High tension + low load: active debate (e.g., Gettier Cases)
+active_debate_color = [251, 191, 36]  # Gold (#FBBF24)
+
 # Background color (RGB 0-255)
 [display]
 background_color = [15, 23, 42]  # Dark blue-gray (#0F172A)

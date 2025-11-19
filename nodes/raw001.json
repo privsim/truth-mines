@@ -1,0 +1,15 @@
+{
+  "id": "raw001",
+  "type": "observation",
+  "domain": "physics",
+  "title": "Photographic Plate Deflection (1919 Eclipse)",
+  "status": "stable",
+  "content": "Photographic plates from the 1919 solar eclipse expedition show star positions shifted from their normal positions when near the Sun's limb. Raw measurement: deflection angles of approximately 1.75 arcseconds.",
+  "tags": ["raw_data", "eclipse", "photography", "empirical", "phenomenological"],
+  "metadata": {
+    "importance": 8.5,
+    "certainty": 1.0
+  },
+  "sources": ["eddington1919_rawdata"],
+  "created": "2025-11-18T20:30:00Z"
+}

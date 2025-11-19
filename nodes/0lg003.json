@@ -1,0 +1,18 @@
+{
+  "id": "0lg003",
+  "type": "axiom",
+  "domain": "mathematics",
+  "title": "Law of Non-Contradiction",
+  "status": "stable",
+  "content": "For all propositions P: P and ¬P cannot both be true simultaneously. One of Aristotle's three laws of thought. Contradictions cannot be true.",
+  "formal": "∀P ¬(P ∧ ¬P)",
+  "tags": ["logic", "non_contradiction", "classical_logic", "foundations", "contested"],
+  "metadata": {
+    "importance": 10,
+    "certainty": 0.99,
+    "foundational_system": "ClassicalLogic",
+    "contested": true
+  },
+  "sources": ["aristotle_metaphysics"],
+  "created": "2025-11-18T20:00:00Z"
+}
