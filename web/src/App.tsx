@@ -89,7 +89,11 @@ function App() {
 
         <main className="app-main">
           {viewMode === '2d' ? (
-            <Graph2D nodes={filteredNodes} onNodeSelect={setSelectedNodeId} />
+            <Graph2D
+              nodes={filteredNodes}
+              selectedNodeId={selectedNodeId}
+              onNodeSelect={setSelectedNodeId}
+            />
           ) : (
             <div className="graph-3d-placeholder">
               <p>3D Truth Mine View</p>
