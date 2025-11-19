@@ -81,6 +81,7 @@ logs/
 .env
 .env.local
 .env.*.local
+.envrc
 
 # Temporary files
 tmp/
@@ -93,4 +94,4 @@ Thumbs.db
 .AppleDouble
 .LSOverride
 
-.envrc
+
